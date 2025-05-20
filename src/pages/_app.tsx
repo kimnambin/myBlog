@@ -2,15 +2,18 @@ import { AppProps } from 'next/app';
 import '../styles/globals.css';
 import Header from './components/layouts/Header';
 import Footer from './components/layouts/Footer';
+import { ThemeProvider } from 'next-themes';
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
     <>
-      <Header />
-      <div className="mx-auto flex min-h-screen w-[90%] flex-col items-center justify-center">
-        <Component {...pageProps} />
-      </div>
-      <Footer />
+      <ThemeProvider attribute="class">
+        <Header />
+        <div className="mx-auto flex min-h-screen w-[90%] flex-col items-center justify-center">
+          <Component {...pageProps} />
+        </div>
+        <Footer />
+      </ThemeProvider>
     </>
   );
 };

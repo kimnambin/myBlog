@@ -20,7 +20,6 @@ export default function Home() {
       <div className="container mx-auto px-4 py-8">
         <div className="space-y-8">
           <h2 className="text-3xl font-bold tracking-tight">목록</h2>
-
           {data.map((idx) => (
             <Link href={`/blog/${idx.id}`} key={idx.title} className="m-3">
               <div>{idx.title}</div>
