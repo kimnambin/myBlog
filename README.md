@@ -2,6 +2,8 @@
 
 - 설치한 패키지
   - react-icons
+  - next-themes
+  - dotenv
 
 ---
 
