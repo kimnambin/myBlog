@@ -1,14 +1,15 @@
-import type {NextConfig} from 'next';
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   /* config options here */
   reactStrictMode: true,
   images: {
-    // domains: [
-    //   'https://makeup-api.herokuapp.com/api/**',
-    //   'https://d3t32hsnjxo7q6.cloudfront.net/**',
-    //   'www.dior.com',
-    // ],
+    domains: [
+      'www.notion.so',
+      'images.unsplash.com',
+      'https://d3t32hsnjxo7q6.cloudfront.net/**',
+      'www.dior.com',
+    ],
     remotePatterns: [
       {
         protocol: 'https',
@@ -17,7 +18,7 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'd3t32hsnjxo7q6.cloudfront.net',
+        hostname: 'notion',
         pathname: '/**',
       },
     ],

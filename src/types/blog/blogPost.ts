@@ -1,3 +1,8 @@
+export interface PostListProps {
+  id: string;
+  properties: PostProps;
+}
+
 export interface PostProps {
   title: {
     title: { plain_text: string }[];
@@ -12,65 +17,22 @@ export interface PostProps {
     date: { start: string } | null;
   };
   post_id?: {
-    rich_text: { plain_text: string } | null;
+    rich_text: { plain_text: string }[];
   };
 
   comments?: {
-    rich_text: { plain_text: string } | null;
+    rich_text: { plain_text: string }[];
   };
 
   likes?: {
-    rich_text: { plain_text: string } | null;
+    rich_text: { plain_text: string }[];
   };
 
   nickname?: {
-    rich_text: { plain_text: string } | null;
+    rich_text: { plain_text: string }[];
   };
 
   img?: {
-    rich_text: { plain_text: string } | null;
+    rich_text: { href: string }[];
   };
-}
-
-interface RichText {
-  type: string;
-  text: {
-    content: string;
-    link: string | null;
-  };
-  annotations: {
-    bold: boolean;
-    italic: boolean;
-    strikethrough: boolean;
-    underline: boolean;
-    code: boolean;
-    color: string;
-  };
-  plain_text: string;
-  href: string | null;
-}
-
-interface Title {
-  id: string;
-  type: 'title';
-  title: RichText[];
-}
-
-interface RichTextProperty {
-  id: string;
-  type: 'rich_text';
-  rich_text: RichText[];
-}
-
-interface PostListProps {
-  subtitle: RichTextProperty;
-  img: RichTextProperty;
-  post_id: RichTextProperty;
-  nickname: RichTextProperty;
-  created_at: RichTextProperty;
-  category: RichTextProperty;
-  comments: RichTextProperty;
-  content: RichTextProperty;
-  likes: RichTextProperty;
-  title: Title;
 }
