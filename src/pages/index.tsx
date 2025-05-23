@@ -4,28 +4,27 @@ import PostList from './components/layouts/Mid';
 import { Client, isFullPage } from '@notionhq/client';
 import { DATABASE_ID, TOKEN } from '../../config';
 import { PostListProps } from '@/types/blog/blogPost';
+import Side from './components/layouts/Side';
 
 export default function Home({ data }: { data: PostListProps[] }) {
-  console.log(data);
   return (
-    <main className="flex-1">
-      <div className="container mx-auto px-4 py-8">
-        <div className="space-y-8">
-          <h2 className="text-3xl font-bold tracking-tight">목록</h2>
-          {/* <Project data={data} /> */}
-          <div className="mb-10 flex min-h-screen flex-col items-center justify-center px-5 py-24">
-            <h1 className="text-2xl font-bold sm:text-3xl">총 게시글 : {data.length}</h1>
+    <main className="z-50 mx-auto mt-[-160px] flex w-full">
+      <div className="container mx-auto flex w-full items-center px-4">
+        <div className="flex-[3]">
+          <div className="flex w-full flex-col">
+            <h1 className="mb-3.5 text-xl font-bold">총 게시글 : {data.length}</h1>
 
-            <div className="xs : m-6 grid w-full grid-cols-1 gap-8 py-10 md:grid-cols-2">
+            <div className="grid grid-cols-2 gap-1.5">
               {data.map((v) => (
-                <Link href={`/posting/${v.id}`}>
-                  <div key={Number(v.id)}>
-                    <PostList id={v.id} data={v.properties} />
-                  </div>
-                </Link>
+                <div key={v.id} className="transition-transform duration-500 hover:scale-105">
+                  <PostList id={v.id} data={v.properties} />
+                </div>
               ))}
             </div>
           </div>
+        </div>
+        <div className="ml-auto flex items-center gap-4">
+          <Side />
         </div>
       </div>
     </main>
