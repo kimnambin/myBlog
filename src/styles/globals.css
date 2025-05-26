@@ -112,10 +112,6 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
-.postingCard {
-  @apply hover:text-hover m-6 flex w-full transform flex-col rounded-md border border-gray-300 bg-slate-400 transition duration-300 hover:scale-105 hover:shadow-lg dark:border-gray-200/50;
-}
-
 @layer base {
   * {
     @apply border-border outline-ring/50;

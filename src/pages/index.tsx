@@ -5,25 +5,28 @@ import { Client, isFullPage } from '@notionhq/client';
 import { DATABASE_ID, TOKEN } from '../../config';
 import { PostListProps } from '@/types/blog/blogPost';
 import Side from './components/layouts/Side';
+import Image from 'next/image';
 
 export default function Home({ data }: { data: PostListProps[] }) {
   return (
-    <main className="z-50 mx-auto mt-[-160px] flex w-full">
-      <div className="container mx-auto flex w-full items-center px-4">
+    <main className="z-50 mt-[30px] flex w-full">
+      <div className="container mx-auto flex w-full px-4">
         <div className="flex-[3]">
           <div className="flex w-full flex-col">
-            <h1 className="mb-3.5 text-xl font-bold">총 게시글 : {data.length}</h1>
+            <h1 className="mt-2.5 mb-3.5 text-xl font-bold">총 게시글 : {data.length}</h1>
 
-            <div className="grid grid-cols-2 gap-1.5">
+            <div className="-m-4 flex flex-wrap">
               {data.map((v) => (
-                <div key={v.id} className="transition-transform duration-500 hover:scale-105">
-                  <PostList id={v.id} data={v.properties} />
+                <div key={v.id} className="flex w-full p-2 sm:w-1/2 lg:w-1/3">
+                  <div className="mt-4 flex-1 border-4 border-gray-200 bg-white px-8 py-10 opacity-100 transition-transform duration-500 hover:scale-105">
+                    <PostList id={v.id} data={v.properties} />
+                  </div>
                 </div>
               ))}
             </div>
           </div>
         </div>
-        <div className="ml-auto flex items-center gap-4">
+        <div className="ml-auto hidden items-center gap-4 sm:flex">
           <Side />
         </div>
       </div>
