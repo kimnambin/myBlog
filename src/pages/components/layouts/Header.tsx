@@ -1,10 +1,12 @@
 import Link from 'next/link';
 import DarkModeBtn from './DarkModeBtn';
 import { useSideFn } from '@/hooks/sideFn';
-import { data } from './Side';
+import { CategoryProps } from '@/types/blog/blogPost';
+import { GetServerSideProps } from 'next';
+import { getCategorys } from '@/lib/notion';
 
-const Header = () => {
-  const { isClick, handleCategory } = useSideFn();
+const Header = ({ categorys }: { categorys: CategoryProps[] }) => {
+  const { isClick, handledropDown } = useSideFn();
 
   return (
     <header className="flex w-full items-center justify-between border-b p-5">
@@ -19,7 +21,7 @@ const Header = () => {
         <Link href="/" className="hover:text-hover font-medium">
           <span className="hidden font-bold sm:block">홈</span>
         </Link>
-        <span className="cursor-pointer font-bold" onClick={handleCategory}>
+        <span className="cursor-pointer font-bold" onClick={handledropDown}>
           {isClick ? '▼ 카테고리' : '▲ 카테고리'}
         </span>
         {isClick && (
@@ -27,10 +29,9 @@ const Header = () => {
             id="dropdown-menu"
             className="absolute top-11 right-0 z-100 w-56 rounded-md bg-white shadow-lg ring-1 ring-black dark:bg-[#1E2028]" // z-10 추가
           >
-            {data.map((v) => (
+            {categorys.map((v) => (
               <p className="block px-4 py-2 text-sm text-black hover:bg-gray-100 dark:text-white dark:hover:bg-[#252731]">
-                {' '}
-                {v}
+                {v.name}
               </p>
             ))}
           </div>
@@ -42,3 +43,13 @@ const Header = () => {
 };
 
 export default Header;
+
+// 빌드 타입에 호출
+export const getServerSideProps: GetServerSideProps = async () => {
+  const categorys = await getCategorys();
+  return {
+    props: {
+      categorys,
+    },
+  };
+};

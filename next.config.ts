@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
       'www.notion.so',
       'images.unsplash.com',
       'https://d3t32hsnjxo7q6.cloudfront.net/**',
+      'img.notionusercontent.com',
       'www.dior.com',
     ],
     remotePatterns: [
@@ -19,6 +20,12 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'notion',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'prod-files-secure.s3.us-west-2.amazonaws.com',
+        port: '',
         pathname: '/**',
       },
     ],

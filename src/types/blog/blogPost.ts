@@ -4,35 +4,21 @@ export interface PostListProps {
 }
 
 export interface PostProps {
-  title: {
-    title: { plain_text: string }[];
-  };
-  subtitle?: {
-    rich_text: { plain_text: string }[];
-  };
-  category?: {
-    select: { name: string } | null;
-  };
-  created_at?: {
-    date: { start: string } | null;
-  };
-  post_id?: {
-    rich_text: { plain_text: string }[];
-  };
+  id?: string;
+  title: string;
+  subtitle?: string;
+  category?: string[];
+  coverImage?: string;
+  created_at?: string | null;
+  post_id?: string;
+  comments?: string[];
+  likes?: string[];
+  nickname?: string;
+  img?: string[];
+}
 
-  comments?: {
-    rich_text: { plain_text: string }[];
-  };
-
-  likes?: {
-    rich_text: { plain_text: string }[];
-  };
-
-  nickname?: {
-    rich_text: { plain_text: string }[];
-  };
-
-  img?: {
-    rich_text: { href: string }[];
-  };
+export interface CategoryProps {
+  id: string;
+  name: string;
+  count: number;
 }
