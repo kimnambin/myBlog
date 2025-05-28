@@ -23,10 +23,9 @@ const Side = ({ categorys }: { categorys: CategoryProps[] }) => {
 
         <div className="grid grid-cols-[repeat(2,_1fr)] gap-1.5">
           {categorys.map((v) => (
-            <Link href={v.name == '전체' ? '/' : `/blog/${v.name}/`}>
+            <Link href={v.name == '전체' ? '/' : `/blog/${v.name}/`} key={v.id}>
               <p
                 className="mb-1.5 rounded-2xl text-center font-bold text-white transition-transform duration-500 hover:scale-105"
-                key={v.id}
                 style={{ backgroundColor: BgColor[v.name] || '#0264fb' }}
               >
                 {v.name}

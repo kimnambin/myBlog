@@ -71,7 +71,7 @@ export const getDetailPost = (page: PageObjectResponse): PostProps => {
 };
 
 export const getPostBySlug = async (
-  category: string
+  title: string
 ): Promise<{
   markdown: string;
   post: PostProps | null;
@@ -80,19 +80,19 @@ export const getPostBySlug = async (
     database_id: process.env.NOTION_DATABASE_ID!,
     filter: {
       and: [
-        {
-          property: 'category',
-          multi_select: {
-            // multi_select로 변경
-            contains: category,
-          },
-        },
         // {
-        //   property: 'Status',
-        //   select: {
-        //     equals: 'Published',
+        //   property: 'category',
+        //   multi_select: {
+        //     // multi_select로 변경
+        //     contains: category,
         //   },
         // },
+        {
+          property: 'title',
+          title: {
+            contains: title,
+          },
+        },
       ],
     },
   });
@@ -100,7 +100,7 @@ export const getPostBySlug = async (
   if (response.results.length === 0) {
     return {
       markdown: '',
-      post: null, // 게시물이 없을 경우 null 반환
+      post: null,
     };
   }
 

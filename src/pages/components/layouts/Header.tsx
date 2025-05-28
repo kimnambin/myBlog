@@ -8,6 +8,8 @@ import { getCategorys } from '@/lib/notion';
 const Header = ({ categorys }: { categorys: CategoryProps[] }) => {
   const { isClick, handledropDown } = useSideFn();
 
+  // TODO : main (/) 여기서 열면 괜찮은데 다른 곳에서 열면 map 오류 발생...
+
   return (
     <header className="flex w-full items-center justify-between border-b p-5">
       <div className="ml-[10%]">
