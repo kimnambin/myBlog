@@ -1,19 +1,43 @@
+import { getPostBySlug } from '@/lib/notion';
+import { PostProps } from '@/types/blog/blogPost';
+import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
 import React from 'react';
+import { MDXRemote } from 'next-mdx-remote/rsc';
+import remarkGfm from 'remark-gfm';
 
-const BlogPost = () => {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { category } = context.params as { category: string };
+  const { markdown, post } = await getPostBySlug(category);
+
+  return {
+    props: {
+      markdown,
+      post,
+    },
+  };
+}
+
+const BlogPost = ({ markdown, post }: { markdown: string; post: PostProps | null }) => {
   const router = useRouter();
-  const { category, postId } = router.query;
-
-  if (!category || !postId) {
-    return <div>로딩 중...</div>;
-  }
+  const { postId } = router.query;
 
   return (
     <div>
-      <p>블로그 내용이여</p>
-      <p>카테고리 : {category}</p>
-      <p>zz:{postId}</p>
+      <p>블로그 내용: {markdown}</p>
+      <p>카테고리: {post?.category}</p>
+      <p>게시물 ID: {postId}</p>
+
+      <div className="prose prose-neutral prose-sm dark:prose-invert max-w-none">
+        <MDXRemote
+          source={markdown}
+          options={{
+            mdxOptions: {
+              remarkPlugins: [remarkGfm],
+            },
+          }}
+        />
+      </div>
     </div>
   );
 };

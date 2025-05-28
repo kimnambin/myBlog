@@ -4,6 +4,7 @@
   - react-icons
   - next-themes
   - dotenv
+  - MDX
 
 ---
 
