@@ -30,6 +30,9 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        hostname: 'www.notion.so',
+      },
     ],
   },
   pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],

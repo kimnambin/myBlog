@@ -5,6 +5,7 @@
   - next-themes
   - dotenv
   - MDX
+  - react-infinite-scroll-component
 
 ---
 

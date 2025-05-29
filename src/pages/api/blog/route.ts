@@ -1,8 +1,10 @@
-import { getPosts } from '@/lib/notion';
+import { getCategorysDetail } from '@/lib/notion';
 import { NextResponse, type NextRequest } from 'next/server';
 
 export async function GET(request: NextRequest) {
-  const posts = await getPosts();
+  const searchParams = request.nextUrl.searchParams;
+
+  const posts = await getCategorysDetail();
 
   return NextResponse.json({ posts });
 }

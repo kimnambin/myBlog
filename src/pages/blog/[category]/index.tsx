@@ -1,12 +1,19 @@
-import { getCategorys, getPosts } from '@/lib/notion';
+import { getCategorysDetail, getPostsByCategory } from '@/lib/notion';
 import PostList from '@/pages/components/layouts/Mid';
 import Side from '@/pages/components/layouts/Side';
 import { CategoryProps, PostProps } from '@/types/blog/blogPost';
+import { GetPostResponse } from '@/types/blog/blogPostsPagination';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import React from 'react';
 
-const CategoryList = ({ posts, categorys }: { posts: PostProps[]; categorys: CategoryProps[] }) => {
+const CategoryList = ({
+  categorys,
+  posts,
+}: {
+  categorys: CategoryProps[];
+  posts: GetPostResponse[];
+}) => {
   const router = useRouter();
   const { category } = router.query;
 
@@ -16,7 +23,10 @@ const CategoryList = ({ posts, categorys }: { posts: PostProps[]; categorys: Cat
     }
   });
 
-  const hasCategory = posts.filter((v) => {
+  console.log(typeof posts);
+
+  // TODO : 여기서 못 가져옴...
+  const hasCategory = posts.posts.filter((v) => {
     return typeof category === 'string' && v.category?.includes(category);
   });
 
@@ -26,17 +36,17 @@ const CategoryList = ({ posts, categorys }: { posts: PostProps[]; categorys: Cat
         <div className="flex-[3]">
           <div className="flex w-full flex-col">
             <h1 className="mt-2.5 mb-3.5 text-xl font-bold">
-              『{category}』게시글 : {categoryCnt}개
+              안녕하세요!! 『{category}』게시글 : {categoryCnt}개
             </h1>
 
             <div className="-m-4 flex flex-wrap">
-              {hasCategory.map((v) => (
-                <div key={v.id} className="flex w-full p-2 sm:w-1/2 lg:w-1/3">
+              {/* {hasCategory.map((v) => (
+                <div className="flex w-full p-2 sm:w-1/2 lg:w-1/3">
                   <div className="mt-4 flex-1 border-4 border-gray-200 bg-white px-8 py-10 opacity-100 transition-transform duration-500 hover:scale-105">
-                    <PostList id={v.id} data={v} />
+                    <PostList data={v} key={v.id} />
                   </div>
                 </div>
-              ))}
+              ))} */}
             </div>
           </div>
         </div>
@@ -51,8 +61,8 @@ const CategoryList = ({ posts, categorys }: { posts: PostProps[]; categorys: Cat
 export default CategoryList;
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const posts = await getPosts();
-  const categorys = await getCategorys();
+  const categorys = await getCategorysDetail();
+  const posts = await getPostsByCategory();
   return {
     props: {
       posts,

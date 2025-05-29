@@ -1,4 +1,4 @@
-import { getPostBySlug } from '@/lib/notion';
+import { getDetailPost } from '@/lib/notion';
 import { PostProps } from '@/types/blog/blogPost';
 import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
@@ -7,7 +7,6 @@ import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote';
 import remarkGfm from 'remark-gfm';
 import rehypePrettyCode from 'rehype-pretty-code';
 import rehypeSlug from 'rehype-slug';
-import withToc from '@stefanprobst/rehype-extract-toc';
 import Link from 'next/link';
 import { unified } from 'unified';
 import remarkParse from 'remark-parse';
@@ -48,7 +47,7 @@ function TableOfContentsLink({ item }: { item: TocEntry }) {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { title } = context.params as { title: string };
-  const { markdown, post } = await getPostBySlug(title);
+  const { markdown, post } = await getDetailPost(title);
 
   const file = new VFile({ value: markdown });
 

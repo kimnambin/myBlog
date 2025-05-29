@@ -2,6 +2,7 @@ import { Client } from '@notionhq/client';
 import type { CategoryProps, PostListProps, PostProps } from '../types/blog/blogPost';
 import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 import { NotionToMarkdown } from 'notion-to-md';
+import { GetPostParams, GetPostResponse } from '@/types/blog/blogPostsPagination';
 
 export const notion = new Client({
   auth: process.env.NOTION_TOKEN,
@@ -9,8 +10,8 @@ export const notion = new Client({
 
 const n2m = new NotionToMarkdown({ notionClient: notion });
 
-// 포스팅 내용 가져오기
-export const getDetailPost = (page: PageObjectResponse): PostProps => {
+// 전체 블로그 내용 가져오기
+export const getAllPost = (page: PageObjectResponse): PostProps => {
   const { properties } = page;
 
   const getCoverImage = (cover: PageObjectResponse['cover']) => {
@@ -70,7 +71,8 @@ export const getDetailPost = (page: PageObjectResponse): PostProps => {
   };
 };
 
-export const getPostBySlug = async (
+// 블로그 상세 정보 가져오기
+export const getDetailPost = async (
   title: string
 ): Promise<{
   markdown: string;
@@ -80,13 +82,6 @@ export const getPostBySlug = async (
     database_id: process.env.NOTION_DATABASE_ID!,
     filter: {
       and: [
-        // {
-        //   property: 'category',
-        //   multi_select: {
-        //     // multi_select로 변경
-        //     contains: category,
-        //   },
-        // },
         {
           property: 'title',
           title: {
@@ -110,14 +105,41 @@ export const getPostBySlug = async (
 
   return {
     markdown: parent,
-    post: getDetailPost(response.results[0] as PageObjectResponse),
+    post: getAllPost(response.results[0] as PageObjectResponse),
   };
 
   // return getPageMetadata(response);
 };
 
-// 포스팅 가져오기
-export const getPosts = async (category?: string): Promise<PostProps[]> => {
+// 카테고리 별 포스팅 가져오기
+// export const getPostsByCategory = async (category?: string): Promise<PostProps[]> => {
+//   const response = await notion.databases.query({
+//     database_id: process.env.NOTION_DATABASE_ID!,
+
+//     filter:
+//       category && category !== '전체'
+//         ? {
+//             property: 'category',
+//             multi_select: {
+//               contains: category,
+//             },
+//           }
+//         : undefined,
+//     sorts: [{ property: 'created_at', direction: 'descending' }],
+//   });
+
+//   // console.log(response.results);
+
+//   return response.results
+//     .filter((page): page is PageObjectResponse => 'properties' in page)
+//     .map(getAllPost);
+// };
+
+export const getPostsByCategory = async ({
+  category,
+  pageSize = 2,
+  startCursor,
+}: GetPostParams = {}): Promise<GetPostResponse> => {
   const response = await notion.databases.query({
     database_id: process.env.NOTION_DATABASE_ID!,
 
@@ -131,18 +153,27 @@ export const getPosts = async (category?: string): Promise<PostProps[]> => {
           }
         : undefined,
     sorts: [{ property: 'created_at', direction: 'descending' }],
+
+    page_size: pageSize,
+    start_cursor: startCursor,
   });
 
   // console.log(response.results);
 
-  return response.results
+  const posts = response.results
     .filter((page): page is PageObjectResponse => 'properties' in page)
-    .map(getDetailPost);
+    .map(getAllPost);
+
+  return {
+    posts,
+    hasMore: response.has_more,
+    nextCursor: response.next_cursor,
+  };
 };
 
-// 카테고리와 관련된
-export const getCategorys = async (): Promise<CategoryProps[]> => {
-  const posts = await getPosts();
+// 카테고리 별 블로그 갯수
+export const getCategorysDetail = async (): Promise<CategoryProps[]> => {
+  const { posts } = await getPostsByCategory({ pageSize: 100 });
 
   const tagCount = posts.reduce(
     (acc, cur) => {
@@ -172,3 +203,5 @@ export const getCategorys = async (): Promise<CategoryProps[]> => {
 
   return [allCategorys, ...sortedCategorys];
 };
+
+// 블로그 페이지네이션

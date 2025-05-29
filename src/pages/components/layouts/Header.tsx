@@ -3,7 +3,7 @@ import DarkModeBtn from './DarkModeBtn';
 import { useSideFn } from '@/hooks/sideFn';
 import { CategoryProps } from '@/types/blog/blogPost';
 import { GetServerSideProps } from 'next';
-import { getCategorys } from '@/lib/notion';
+import { getCategorysDetail } from '@/lib/notion';
 import { useLoading } from '@/hooks/loading';
 import Loading from './loading';
 
@@ -36,6 +36,7 @@ const Header = ({ categorys }: { categorys: CategoryProps[] }) => {
             {categorys.map((v) => (
               <p
                 className="block px-4 py-2 text-sm text-black hover:bg-gray-100 dark:text-white dark:hover:bg-[#252731]"
+                key={v.id}
                 // onClick={handleClick}
               >
                 {v.name}
@@ -53,7 +54,7 @@ export default Header;
 
 // 빌드 타입에 호출
 export const getServerSideProps: GetServerSideProps = async () => {
-  const categorys = await getCategorys();
+  const categorys = await getCategorysDetail();
   return {
     props: {
       categorys,
