@@ -9,7 +9,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     <>
       <ThemeProvider attribute="class">
         <Header categorys={pageProps.categorys} />
-        <div className="mx-auto flex min-h-screen w-[80%] flex-col items-center justify-start">
+        <div className="relative mx-auto flex min-h-screen w-[80%] flex-col items-center justify-start">
           <Component {...pageProps} />
         </div>
         <Footer />

@@ -123,11 +123,11 @@
 }
 
 .c {
-  background-color: #0000;
-  border: none;
-  display: grid;
-  grid-template-columns: repeat(2, 1);
-  gap: 10px;
-  text-align: center;
-  font-weight: bold;
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.6);
 }

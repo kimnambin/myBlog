@@ -1,8 +1,13 @@
 import { getCategorys, getPosts } from '@/lib/notion';
-import PostList from './components/layouts/Mid';
+// import PostList from './components/layouts/Mid';
 import Side from './components/layouts/Side';
 import { GetServerSideProps } from 'next';
 import { CategoryProps, PostProps } from '@/types/blog/blogPost';
+
+import dynamic from 'next/dynamic';
+const PostList = dynamic(() => import('./components/layouts/Mid'), {
+  loading: () => <div>Loading...</div>,
+});
 
 export default function Home({
   posts,
@@ -28,7 +33,7 @@ export default function Home({
               {posts.map((v) => (
                 <div key={v.id} className="flex w-full p-2 sm:w-1/2 lg:w-1/3">
                   <div className="mt-4 flex-1 border-4 border-gray-200 bg-white px-8 py-10 opacity-100 transition-transform duration-500 hover:scale-105">
-                    <PostList id={v.id} data={v} />
+                    <PostList data={v} />
                   </div>
                 </div>
               ))}

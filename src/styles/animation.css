@@ -1,0 +1,12 @@
+@keyframes scaleBounce {
+  from {
+    transform: scale(0.7);
+  }
+  to {
+    transform: scale(1.3);
+  }
+}
+
+.animate-scaleBounce {
+  animation: scaleBounce 0.3s alternate infinite;
+}
