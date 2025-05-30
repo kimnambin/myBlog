@@ -22,3 +22,9 @@ export interface CategoryProps {
   name: string;
   count: number;
 }
+
+export interface BlogUploadProps {
+  title: string;
+  category: string;
+  content: string;
+}

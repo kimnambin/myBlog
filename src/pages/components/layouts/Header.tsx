@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import DarkModeBtn from './DarkModeBtn';
+import DarkModeBtn from '../feat/DarkModeBtn';
 import { useSideFn } from '@/hooks/sideFn';
 import { CategoryProps } from '@/types/blog/blogPost';
 import { GetServerSideProps } from 'next';
@@ -15,7 +15,7 @@ const Header = ({ categorys }: { categorys: CategoryProps[] }) => {
 
   return (
     <header className="flex w-full items-center justify-between border-b p-5">
-      {isLoading && <Loading />}
+      {isLoading && <Loading text={'페이지 이동 중...'} />}
       <div className="ml-[10%]">
         <Link href="/" className="text-xl font-semibold" onClick={handleClick}>
           <span className="hover:text-hover font-bold">나니 블로그</span>
@@ -45,6 +45,8 @@ const Header = ({ categorys }: { categorys: CategoryProps[] }) => {
           </div>
         )}
         <DarkModeBtn />
+        {/* TODO : 글쓰기 페이지 */}
+        <Link href="/blog/write">글쓰기</Link>
       </nav>
     </header>
   );

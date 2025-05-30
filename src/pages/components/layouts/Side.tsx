@@ -7,8 +7,6 @@ import Loading from './loading';
 const Side = ({ categorys }: { categorys: CategoryProps[] }) => {
   const { isLoading, handleClick } = useLoading();
 
-  console.log(categorys);
-
   return (
     <div className="m-auto my-0 ml-5.5 flex h-full flex-col justify-center rounded-2xl border-4 border-gray-200 p-5">
       <div className="flex flex-col p-3">
@@ -17,7 +15,7 @@ const Side = ({ categorys }: { categorys: CategoryProps[] }) => {
         <br />
         <h2 className="font-bold">📌카테고리 검색</h2>
 
-        {isLoading && <Loading />}
+        {isLoading && <Loading text={'페이지 이동 중...'} />}
         <div className="grid grid-cols-[repeat(2,_1fr)] gap-1.5">
           {categorys.map((v) => (
             <Link

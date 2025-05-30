@@ -71,8 +71,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     },
   });
 
-  console.log(mdxSource);
-
   return {
     props: {
       mdxSource,

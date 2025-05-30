@@ -8,7 +8,6 @@ export const useSideFn = () => {
 
   const handledropDown = () => {
     setIsClick(!isClick);
-    console.log('클릭됨');
   };
 
   return { isClick, handledropDown };

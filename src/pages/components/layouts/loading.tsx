@@ -2,7 +2,7 @@ import React from 'react';
 import { createPortal } from 'react-dom';
 import '../../../styles/animation.css';
 
-const Loading = () => {
+const Loading = ({ text }: string) => {
   if (typeof window === 'undefined') return null; // SSR 방지
 
   return createPortal(
@@ -21,7 +21,10 @@ const Loading = () => {
           style={{ animationDelay: '0.2s' }}
         ></i>
       </div>
-      <p className="mt-[10px] text-lg">Loading...</p>
+      <p className="mt-[10px] text-lg">
+        {/* Loading... */}
+        {text}
+      </p>
     </div>,
     document.body
   );

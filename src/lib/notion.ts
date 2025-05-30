@@ -1,5 +1,10 @@
 import { Client } from '@notionhq/client';
-import type { CategoryProps, PostListProps, PostProps } from '../types/blog/blogPost';
+import type {
+  CategoryProps,
+  PostListProps,
+  PostProps,
+  BlogUploadProps,
+} from '../types/blog/blogPost';
 import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 import { NotionToMarkdown } from 'notion-to-md';
 import { GetPostParams, GetPostResponse } from '@/types/blog/blogPostsPagination';
@@ -112,32 +117,9 @@ export const getDetailPost = async (
 };
 
 // 카테고리 별 포스팅 가져오기
-// export const getPostsByCategory = async (category?: string): Promise<PostProps[]> => {
-//   const response = await notion.databases.query({
-//     database_id: process.env.NOTION_DATABASE_ID!,
-
-//     filter:
-//       category && category !== '전체'
-//         ? {
-//             property: 'category',
-//             multi_select: {
-//               contains: category,
-//             },
-//           }
-//         : undefined,
-//     sorts: [{ property: 'created_at', direction: 'descending' }],
-//   });
-
-//   // console.log(response.results);
-
-//   return response.results
-//     .filter((page): page is PageObjectResponse => 'properties' in page)
-//     .map(getAllPost);
-// };
-
 export const getPostsByCategory = async ({
   category,
-  pageSize = 2,
+  pageSize = 50, // TODO : 나중에 데이터가 많아지면 어떻게 해야하지...
   startCursor,
 }: GetPostParams = {}): Promise<GetPostResponse> => {
   const response = await notion.databases.query({
@@ -172,14 +154,19 @@ export const getPostsByCategory = async ({
 };
 
 // 카테고리 별 블로그 갯수
-export const getCategorysDetail = async (): Promise<CategoryProps[]> => {
+export const getCategorysDetail = async (category?: string): Promise<CategoryProps[]> => {
   const { posts } = await getPostsByCategory({ pageSize: 100 });
 
   const tagCount = posts.reduce(
     (acc, cur) => {
-      cur.category?.forEach((v) => {
-        acc[v] = (acc[v] || 0) + 1;
-      });
+      // cur.category?.forEach((v) => {
+      //   acc[v] = (acc[v] || 0) + 1;
+      // });
+      if (!category || cur.category?.includes(category)) {
+        cur.category?.forEach((v) => {
+          acc[v] = (acc[v] || 0) + 1;
+        });
+      }
       return acc;
     },
     {} as Record<string, number>
@@ -204,4 +191,37 @@ export const getCategorysDetail = async (): Promise<CategoryProps[]> => {
   return [allCategorys, ...sortedCategorys];
 };
 
-// 블로그 페이지네이션
+// 블로그 글쓰기
+
+export const blogUpload = async ({ title, category, content }: BlogUploadProps) => {
+  try {
+    const res = await notion.pages.create({
+      parent: {
+        database_id: process.env.NOTION_DATABASE_ID!,
+      },
+      properties: {
+        title: {
+          title: [
+            {
+              text: {
+                content: title,
+              },
+            },
+          ],
+        },
+        category: {
+          multi_select: [{ name: category }],
+        },
+        created_at: {
+          date: {
+            start: new Date().toISOString(),
+          },
+        },
+      },
+    });
+
+    return res;
+  } catch (e) {
+    throw e;
+  }
+};
