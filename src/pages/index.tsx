@@ -28,7 +28,7 @@ export default function Home({
     },
     queryFn: async ({ pageParam }) => {
       const res = await fetch(`/api/blog?startCursor=${pageParam ?? ''}&pageSize=6`, {
-        // cache: 'no-store',
+        cache: 'no-store',
       });
       return res.json();
     },
@@ -38,10 +38,12 @@ export default function Home({
   return (
     <main className="z-50 mt-[30px] flex w-full">
       <div className="container mx-auto flex w-full px-4">
-        <div className="flex-[3]">
-          <div className="flex w-full flex-col">
-            <h1 className="mt-2.5 mb-3.5 text-xl font-bold">『전체』게시글 : {categoryCnt}개</h1>
+        <div className="flex flex-[3] flex-col">
+          <h1 className="mt-2.5 mb-3.5 flex text-xl font-bold">
+            『전체』게시글 : <p className="ml-2 text-[#ef402f]">{categoryCnt}개</p>
+          </h1>
 
+          <div className="flex-1">
             <InfiniteScroll
               dataLength={data?.pages.flatMap((page) => page.posts).length ?? 0}
               next={() => fetchNextPage()}
@@ -63,12 +65,14 @@ export default function Home({
                   </div>
                 ))}
             </InfiniteScroll>
-
             {isFetchingNextPage && <Loading text={'게시글 불러오는 중...'} />}
           </div>
         </div>
-        <div className="ml-auto hidden items-center gap-4 sm:flex">
-          <Side categorys={categorys} />
+
+        <div className="ml-auto hidden h-full flex-col items-center gap-4 sm:flex">
+          <div className="flex h-full flex-col justify-between">
+            <Side categorys={categorys} />
+          </div>
         </div>
       </div>
     </main>
