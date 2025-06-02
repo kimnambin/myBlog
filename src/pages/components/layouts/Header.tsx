@@ -15,7 +15,7 @@ const Header = ({ categorys }: { categorys: CategoryProps[] }) => {
 
   return (
     <header className="flex w-full items-center justify-between border-b p-5">
-      {isLoading && <Loading text={'페이지 이동 중...'} />}
+      {isLoading && <Loading text="페이지 이동 중..." />}
       <div className="ml-[10%]">
         <Link href="/" className="text-xl font-semibold" onClick={handleClick}>
           <span className="hover:text-hover font-bold">나니 블로그</span>

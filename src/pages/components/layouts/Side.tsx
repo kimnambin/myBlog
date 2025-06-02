@@ -15,7 +15,7 @@ const Side = ({ categorys }: { categorys: CategoryProps[] }) => {
         <br />
         <h2 className="font-bold">📌카테고리 검색</h2>
 
-        {isLoading && <Loading text={'페이지 이동 중...'} />}
+        {isLoading && <Loading text="페이지 이동 중..." />}
         <div className="grid grid-cols-[repeat(2,_1fr)] gap-1.5">
           {categorys.map((v) => (
             <Link

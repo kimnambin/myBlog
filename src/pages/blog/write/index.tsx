@@ -6,7 +6,8 @@ import { createPostAction } from '../../../actions/blogUpload';
 export default function WritePage() {
   return (
     <div className="container py-10">
-      <BlogUploadForm createPostAction={createPostAction} />
+      {/* <BlogUploadForm createPostAction={createPostAction} /> */}
+      <BlogUploadForm />
     </div>
   );
 }

@@ -193,6 +193,8 @@ export const getCategorysDetail = async (category?: string): Promise<CategoryPro
 
 // 블로그 글쓰기
 
+// TODO : 여기서 에러남...
+
 export const blogUpload = async ({ title, category, content }: BlogUploadProps) => {
   try {
     const res = await notion.pages.create({
@@ -222,6 +224,7 @@ export const blogUpload = async ({ title, category, content }: BlogUploadProps) 
 
     return res;
   } catch (e) {
+    console.log('notion error', e);
     throw e;
   }
 };

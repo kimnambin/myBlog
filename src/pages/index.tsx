@@ -22,10 +22,12 @@ export default function Home({
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
     queryKey: ['posts'],
+    initialPageParam: initNextCursor,
     initialData: {
       pages: [{ posts: initPosts, hasMore: initHasMore, nextCursor: initNextCursor }],
       pageParams: [initNextCursor],
     },
+
     queryFn: async ({ pageParam }) => {
       const res = await fetch(`/api/blog?startCursor=${pageParam ?? ''}&pageSize=6`, {
         cache: 'no-store',
@@ -48,6 +50,7 @@ export default function Home({
               dataLength={data?.pages.flatMap((page) => page.posts).length ?? 0}
               next={() => fetchNextPage()}
               hasMore={hasNextPage}
+              loader
               endMessage={
                 <p className="mt-4 text-center text-gray-500">
                   <b>더 이상 게시물이 없습니다.</b>
@@ -65,7 +68,7 @@ export default function Home({
                   </div>
                 ))}
             </InfiniteScroll>
-            {isFetchingNextPage && <Loading text={'게시글 불러오는 중...'} />}
+            {isFetchingNextPage && <Loading text="게시글 불러오는 중..." />}
           </div>
         </div>
 

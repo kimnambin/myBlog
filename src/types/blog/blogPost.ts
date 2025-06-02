@@ -28,3 +28,12 @@ export interface BlogUploadProps {
   category: string;
   content: string;
 }
+
+export interface PostFormState {
+  message: string;
+  errors?: {
+    title?: string[];
+    category?: string[];
+    content?: string[];
+  };
+}
