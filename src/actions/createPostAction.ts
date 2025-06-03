@@ -1,7 +1,6 @@
 'use server';
 
 import { PostFormState } from '@/types/blog/blogPost';
-import { blogUpload } from '../lib/notion';
 import { z } from 'zod';
 
 const postSchema = z.object({
@@ -10,11 +9,28 @@ const postSchema = z.object({
   content: z.string().min(10, { message: '내용은 최소 10자 이상' }),
 });
 
+// 클라이언트 API 호출
+async function uploadBlogToApi({ title, category, content }) {
+  const response = await fetch('/api/blog/uploadBlog', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ title, category, content }),
+  });
+
+  if (!response.ok) {
+    throw new Error('포스팅 업로드 실패');
+  }
+
+  return await response.json();
+}
+
 export async function createPostAction(prevState: PostFormState, formData: FormData) {
   const rawFormData = {
-    title: String(formData.get('title')),
-    category: String(formData.get('category')),
-    content: String(formData.get('content')),
+    title: formData.get('title')?.toString() ?? '',
+    category: formData.get('category')?.toString() ?? '',
+    content: formData.get('content')?.toString() ?? '',
   };
 
   const validatedFields = postSchema.safeParse(rawFormData);
@@ -29,12 +45,7 @@ export async function createPostAction(prevState: PostFormState, formData: FormD
 
   try {
     const { title, category, content } = validatedFields.data;
-
-    await blogUpload({
-      title,
-      category,
-      content,
-    });
+    await uploadBlogToApi({ title, category, content });
 
     return {
       message: '포스팅 업로드 완료!!',

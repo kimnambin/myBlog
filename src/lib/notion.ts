@@ -13,6 +13,10 @@ export const notion = new Client({
   auth: process.env.NOTION_TOKEN,
 });
 
+if (typeof window !== 'undefined') {
+  throw new Error('❌ Notion API는 클라이언트에서 사용할 수 없습니다.');
+}
+
 const n2m = new NotionToMarkdown({ notionClient: notion });
 
 // 전체 블로그 내용 가져오기
@@ -189,42 +193,4 @@ export const getCategorysDetail = async (category?: string): Promise<CategoryPro
   const sortedCategorys = restCategorys.sort((a, b) => a.name.localeCompare(b.name));
 
   return [allCategorys, ...sortedCategorys];
-};
-
-// 블로그 글쓰기
-
-// TODO : 여기서 에러남...
-
-export const blogUpload = async ({ title, category, content }: BlogUploadProps) => {
-  try {
-    const res = await notion.pages.create({
-      parent: {
-        database_id: process.env.NOTION_DATABASE_ID!,
-      },
-      properties: {
-        title: {
-          title: [
-            {
-              text: {
-                content: title,
-              },
-            },
-          ],
-        },
-        category: {
-          multi_select: [{ name: category }],
-        },
-        created_at: {
-          date: {
-            start: new Date().toISOString(),
-          },
-        },
-      },
-    });
-
-    return res;
-  } catch (e) {
-    console.log('notion error', e);
-    throw e;
-  }
 };

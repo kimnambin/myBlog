@@ -1,9 +1,11 @@
+// TODO : 카테고리는 선택으로 수정할 것
+
 'use client';
 
 import { Loader2 } from 'lucide-react';
-import { createPostAction } from '../../../actions/blogUpload';
 import { useActionState } from 'react';
-import { Alert, AlertDescription } from '../layouts/Alert';
+import { createPostAction } from '@/actions/createPostAction';
+import { Alert, AlertDescription } from '../../layouts/Alert';
 
 export default function WritePage() {
   const [state, formAction, isPending] = useActionState(createPostAction, {
