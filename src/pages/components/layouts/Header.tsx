@@ -46,7 +46,9 @@ const Header = ({ categorys }: { categorys: CategoryProps[] }) => {
         )}
         <DarkModeBtn />
         {/* TODO : 글쓰기 페이지 */}
-        <Link href="/blog/write">글쓰기</Link>
+        <Link href="/blog/write" onClick={handleClick}>
+          글쓰기
+        </Link>
       </nav>
     </header>
   );

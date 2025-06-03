@@ -8,23 +8,23 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import Loading from './components/layouts/loading';
 
 export default function Home({
-  initPosts,
+  posts,
   categorys,
   initHasMore,
   initNextCursor,
+  totalPosting,
 }: {
-  initPosts: PostProps[];
+  posts: PostProps[];
   categorys: CategoryProps[];
   initHasMore: boolean;
   initNextCursor: string | null;
+  totalPosting: number;
 }) {
-  const categoryCnt = categorys.find((v) => v.name === '전체')?.count ?? 0;
-
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
     queryKey: ['posts'],
     initialPageParam: initNextCursor,
     initialData: {
-      pages: [{ posts: initPosts, hasMore: initHasMore, nextCursor: initNextCursor }],
+      pages: [{ posts: posts, hasMore: initHasMore, nextCursor: initNextCursor }],
       pageParams: [initNextCursor],
     },
 
@@ -42,7 +42,7 @@ export default function Home({
       <div className="container mx-auto flex w-full px-4">
         <div className="flex flex-[3] flex-col">
           <h1 className="mt-2.5 mb-3.5 flex text-xl font-bold">
-            『전체』게시글 : <p className="ml-2 text-[#ef402f]">{categoryCnt}개</p>
+            『전체』게시글 : <p className="ml-2 text-[#ef402f]">{totalPosting}개</p>
           </h1>
 
           <div className="flex-1">
@@ -83,15 +83,17 @@ export default function Home({
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const { posts, hasMore, nextCursor } = await getPostsByCategory({ pageSize: 3 });
+  const { posts, hasMore, nextCursor } = await getPostsByCategory();
   const categorys = await getCategorysDetail();
+  const totalPosting = categorys[0].count;
 
   return {
     props: {
-      initPosts: posts,
+      posts,
       categorys,
       initHasMore: hasMore,
       initNextCursor: nextCursor,
+      totalPosting,
     },
   };
 };

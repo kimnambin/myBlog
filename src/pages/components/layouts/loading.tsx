@@ -3,9 +3,8 @@ import { createPortal } from 'react-dom';
 import '../../../styles/animation.css';
 
 const Loading: React.FC<{ text: string | null }> = ({ text }) => {
-  if (typeof window === 'undefined') return null; // SSR 방지
-
-  console.log(text);
+  if (typeof window === 'undefined') return null;
+  // SSR 방지
 
   return createPortal(
     <div className="fixed top-1/2 left-1/2 z-[100] w-[260px] -translate-x-1/2 -translate-y-1/2 transform border border-gray-300 bg-white p-5 text-center shadow-md">

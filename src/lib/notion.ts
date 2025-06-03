@@ -1,13 +1,9 @@
 import { Client } from '@notionhq/client';
-import type {
-  CategoryProps,
-  PostListProps,
-  PostProps,
-  BlogUploadProps,
-} from '../types/blog/blogPost';
+import type { CategoryProps, PostProps } from '../types/blog/blogPost';
 import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 import { NotionToMarkdown } from 'notion-to-md';
 import { GetPostParams, GetPostResponse } from '@/types/blog/blogPostsPagination';
+import { unstable_cache } from 'next/cache';
 
 export const notion = new Client({
   auth: process.env.NOTION_TOKEN,
@@ -121,41 +117,46 @@ export const getDetailPost = async (
 };
 
 // 카테고리 별 포스팅 가져오기
-export const getPostsByCategory = async ({
-  category,
-  pageSize = 50, // TODO : 나중에 데이터가 많아지면 어떻게 해야하지...
-  startCursor,
-}: GetPostParams = {}): Promise<GetPostResponse> => {
-  const response = await notion.databases.query({
-    database_id: process.env.NOTION_DATABASE_ID!,
+export const getPostsByCategory = unstable_cache(
+  async ({ category, pageSize = 3, startCursor }: GetPostParams = {}): Promise<GetPostResponse> => {
+    try {
+      const response = await notion.databases.query({
+        database_id: process.env.NOTION_DATABASE_ID!,
 
-    filter:
-      category && category !== '전체'
-        ? {
-            property: 'category',
-            multi_select: {
-              contains: category,
-            },
-          }
-        : undefined,
-    sorts: [{ property: 'created_at', direction: 'descending' }],
+        filter:
+          category && category !== '전체'
+            ? {
+                property: 'category',
+                multi_select: {
+                  contains: category,
+                },
+              }
+            : undefined,
+        sorts: [{ property: 'created_at', direction: 'descending' }],
 
-    page_size: pageSize,
-    start_cursor: startCursor,
-  });
+        page_size: pageSize,
+        start_cursor: startCursor,
+      });
 
-  // console.log(response.results);
+      const posts = response.results
+        .filter((page): page is PageObjectResponse => 'properties' in page)
+        .map(getAllPost);
 
-  const posts = response.results
-    .filter((page): page is PageObjectResponse => 'properties' in page)
-    .map(getAllPost);
-
-  return {
-    posts,
-    hasMore: response.has_more,
-    nextCursor: response.next_cursor,
-  };
-};
+      return {
+        posts,
+        hasMore: response.has_more,
+        nextCursor: response.next_cursor,
+      };
+    } catch (error) {
+      console.error('Error fetching posts by category:', error);
+      throw new Error('Failed to fetch posts');
+    }
+  },
+  ['posts'],
+  {
+    tags: ['posts'],
+  }
+);
 
 // 카테고리 별 블로그 갯수
 export const getCategorysDetail = async (category?: string): Promise<CategoryProps[]> => {

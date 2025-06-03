@@ -14,7 +14,7 @@ const PostList = ({ data }: { data: PostProps }) => {
       <Link href={`/blog/${data.category?.slice(0, 1)}/${data.title}`} onClick={handleClick}>
         <h1>{data.title ?? '제목을 불러올 수 없음'}</h1>
         <Image
-          src={data.coverImage ?? '/img/main.jpg'}
+          src={data.coverImage || '/img/main.jpg'}
           loading="lazy"
           width={150}
           height={150}

@@ -1,13 +1,17 @@
-// TODO : 카테고리는 선택으로 수정할 것
-
 'use client';
 
 import { Loader2 } from 'lucide-react';
-import { useActionState } from 'react';
+import { useActionState, useReducer } from 'react';
 import { createPostAction } from '@/actions/createPostAction';
 import { Alert, AlertDescription } from '../../layouts/Alert';
+// import { useRouter } from 'next/router';
+import { useQueryClient } from '@tanstack/react-query';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function WritePage() {
+  const router = useRouter();
+  const queryClient = useQueryClient();
   const [state, formAction, isPending] = useActionState(createPostAction, {
     message: '',
     errors: {},
@@ -17,6 +21,19 @@ export default function WritePage() {
       content: '',
     },
   });
+
+  useEffect(() => {
+    if (state.success) {
+      queryClient.invalidateQueries({ queryKey: ['posts'] });
+      router.push('/');
+    }
+  }, [state, queryClient, router]);
+
+  const categories = ['전체', '기타', '코테', '회고', 'CS', 'JavaScript', 'Next.js', 'React.js'];
+
+  if (state?.redirect) {
+    router.push('/'); // 리디렉션 경로
+  }
 
   return (
     <form action={formAction}>
@@ -37,22 +54,26 @@ export default function WritePage() {
               name="title"
               placeholder="제목을 입력해주세요"
               className="h-12 text-lg"
+              required
             />
-
             {state?.errors?.title && (
               <p className="text-sm text-red-500">{state.errors.title[0]}</p>
             )}
           </div>
 
-          {/* 카테고리 입력 */}
+          {/* 카테고리 선택 */}
           <div className="mb-6 space-y-2">
             <div>카테고리</div>
-            <input
-              id="category"
-              name="category"
-              placeholder="카테고리를 입력해주세요"
-              className="h-12"
-            />
+            <select id="category" name="category" className="h-12" defaultValue="" required>
+              <option value="" disabled>
+                카테고리를 선택해주세요
+              </option>
+              {categories.map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
             {state?.errors?.category && (
               <p className="text-sm text-red-500">{state.errors.category[0]}</p>
             )}
@@ -66,6 +87,7 @@ export default function WritePage() {
               name="content"
               placeholder="작성해주세요"
               className="min-h-[400px] resize-none"
+              required
             />
             {state?.errors?.content && (
               <p className="text-sm text-red-500">{state.errors.content[0]}</p>

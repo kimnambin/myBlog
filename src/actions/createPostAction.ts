@@ -1,7 +1,8 @@
 'use server';
 
-import { PostFormState } from '@/types/blog/blogPost';
+import { PostFormState, BlogUploadProps } from '@/types/blog/blogPost';
 import { z } from 'zod';
+import { revalidateTag } from 'next/cache';
 
 const postSchema = z.object({
   title: z.string().min(1, { message: '제목을 입력해주세요.' }),
@@ -10,7 +11,7 @@ const postSchema = z.object({
 });
 
 // 클라이언트 API 호출
-async function uploadBlogToApi({ title, category, content }) {
+async function uploadBlogToApi({ title, category, content }: BlogUploadProps) {
   const response = await fetch('/api/blog/uploadBlog', {
     method: 'POST',
     headers: {
@@ -48,7 +49,9 @@ export async function createPostAction(prevState: PostFormState, formData: FormD
     await uploadBlogToApi({ title, category, content });
 
     return {
-      message: '포스팅 업로드 완료!!',
+      revalidateTag: 'posts',
+      redirect: true,
+      success: true,
     };
   } catch (e) {
     console.error('Error blog upload:', e);

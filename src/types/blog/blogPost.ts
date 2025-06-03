@@ -30,10 +30,12 @@ export interface BlogUploadProps {
 }
 
 export interface PostFormState {
-  message: string;
+  message?: string;
   errors?: {
     title?: string[];
     category?: string[];
     content?: string[];
   };
+  success?: boolean;
+  redirect?: boolean;
 }
