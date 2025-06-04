@@ -122,6 +122,17 @@
   }
 }
 
+@media (max-width: 1056px) {
+  .hidden-side {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .menubar {
+  }
+}
+
 .c {
   position: relative;
   top: 0;

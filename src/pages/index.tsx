@@ -72,7 +72,7 @@ export default function Home({
           </div>
         </div>
 
-        <div className="ml-auto hidden h-full flex-col items-center gap-4 sm:flex">
+        <div className="hidden-side ml-auto hidden h-full flex-col items-center gap-4 sm:flex">
           <div className="flex h-full flex-col justify-between">
             <Side categorys={categorys} />
           </div>

@@ -5,11 +5,51 @@ import { CategoryProps, PostProps } from '@/types/blog/blogPost';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import React from 'react';
-import { QueryClient, useQuery, useQueryClient } from '@tanstack/react-query';
+import { QueryClient, useInfiniteQuery, useQuery, useQueryClient } from '@tanstack/react-query';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import Loading from '@/pages/components/layouts/loading';
 
-const CategoryList = ({ categorys, posts }: { categorys: CategoryProps[]; posts: PostProps[] }) => {
+export default function CategoryList({
+  categorys,
+  posts,
+  initHasMore,
+  initNextCursor,
+}: {
+  categorys: CategoryProps[];
+  posts: PostProps[];
+  initHasMore: boolean;
+  initNextCursor: string | null;
+}) {
   const router = useRouter();
   const { category } = router.query;
+
+  const hasCategory = posts.filter((v) => {
+    return typeof category === 'string' && v.category?.includes(category);
+  });
+
+  console.log(category);
+
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
+    queryKey: ['category-posts', category],
+    initialPageParam: initNextCursor, // TODO : 여기가 문제라고 하네...
+    initialData: {
+      pages: [{ posts, hasMore: initHasMore, nextCursor: initNextCursor }],
+      pageParams: [initNextCursor],
+    },
+
+    queryFn: async ({ pageParam }) => {
+      const res = await fetch(
+        `/api/blog?startCursor=${pageParam ?? ''}&pageSize=6&category=${category}`,
+        // categoryPosting 이거 넣어서 해보기...
+        {
+          cache: 'no-store',
+        }
+      );
+
+      return res.json();
+    },
+    getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
+  });
 
   const categoryCnt = categorys.map((v) => {
     if (v.name == category) {
@@ -17,47 +57,71 @@ const CategoryList = ({ categorys, posts }: { categorys: CategoryProps[]; posts:
     }
   });
 
-  const hasCategory = posts.filter((v) => {
-    return typeof category === 'string' && v.category?.includes(category);
-  });
-
   return (
     <main className="z-50 mt-[30px] flex w-full">
       <div className="container mx-auto flex w-full px-4">
-        <div className="flex-[3]">
-          <div className="flex w-full flex-col">
-            <h1 className="mt-2.5 mb-3.5 flex text-xl font-bold">
-              『{category}』게시글 : <p className="ml-2 text-[#ef402f]">{categoryCnt}개</p>
-            </h1>
+        <div className="flex flex-[3] flex-col">
+          <h1 className="mt-2.5 mb-3.5 flex text-xl font-bold">
+            『{category}』게시글 : <p className="ml-2 text-[#ef402f]">{categoryCnt}개</p>
+          </h1>
 
-            <div className="-m-4 flex flex-wrap">
-              {hasCategory.map((v) => (
-                <div key={v.id} className="flex w-full p-2 sm:w-1/2 lg:w-1/3">
-                  <div className="mt-4 flex-1 border-4 border-gray-200 bg-white px-8 py-10 opacity-100 transition-transform duration-500 hover:scale-105">
-                    <PostList data={v} />
+          <div className="flex-1">
+            <InfiniteScroll
+              dataLength={data?.pages.flatMap((page) => page.posts).length ?? 0}
+              next={() => fetchNextPage()}
+              hasMore={hasNextPage}
+              loader
+              endMessage={
+                <p className="mt-4 text-center text-gray-500">
+                  <b>더 이상 게시물이 없습니다.</b>
+                </p>
+              }
+              className="-m-4 flex flex-wrap"
+            >
+              {data?.pages
+                .flatMap((page) => page.posts)
+                .map((v) => (
+                  <div key={v.id} className="flex w-full p-2 sm:w-1/2 lg:w-1/3">
+                    <div className="mt-4 flex-1 border-4 border-gray-200 bg-white px-8 py-10 opacity-100 transition-transform duration-500 hover:scale-105">
+                      <PostList data={v} />
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+            </InfiniteScroll>
+            {isFetchingNextPage && <Loading text="게시글 불러오는 중..." />}
           </div>
         </div>
-        <div className="ml-auto hidden items-center gap-4 sm:flex">
-          <Side categorys={categorys} />
+
+        <div className="hidden-side ml-auto hidden h-full flex-col items-center gap-4 sm:flex">
+          <div className="flex h-full flex-col justify-between">
+            <Side categorys={categorys} />
+          </div>
         </div>
       </div>
     </main>
   );
-};
+}
 
-export default CategoryList;
+// export const getServerSideProps: GetServerSideProps = async () => {
+//   const categorys = await getCategorysDetail();
+//   const posts = await getPostsByCategory();
+//   return {
+//     props: {
+//       posts: posts.posts,
+//       categorys,
+//     },
+//   };
+// };
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const categorys = await getCategorysDetail();
-  const posts = await getPostsByCategory();
+  const { posts, hasMore, nextCursor } = await getPostsByCategory();
   return {
     props: {
-      posts: posts.posts,
+      posts,
       categorys,
+      initHasMore: hasMore,
+      initNextCursor: nextCursor,
     },
   };
 };

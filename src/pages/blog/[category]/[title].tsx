@@ -89,9 +89,6 @@ const BlogPost = ({
   post: PostProps | null;
   toc: Toc;
 }) => {
-  const router = useRouter();
-  const { postId } = router.query;
-
   return (
     <div>
       {/* <p>카테고리: {post?.category.join(', ')}</p> */}
@@ -103,6 +100,8 @@ const BlogPost = ({
       <nav className="space-y-3 text-sm">
         {toc?.map((item: any) => <TableOfContentsLink key={item.id} item={item} />)}
       </nav>
+
+      {/* <GiscusComments /> */}
     </div>
   );
 };

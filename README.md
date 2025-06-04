@@ -6,6 +6,7 @@
   - dotenv
   - MDX
   - react-infinite-scroll-component
+  - giscus
 
 ---
 

@@ -1,11 +1,12 @@
 import Link from 'next/link';
-import DarkModeBtn from '../feat/DarkModeBtn';
+import { DarkModeBtn } from '../theme/DarkModeBtn';
 import { useSideFn } from '@/hooks/sideFn';
 import { CategoryProps } from '@/types/blog/blogPost';
 import { GetServerSideProps } from 'next';
 import { getCategorysDetail } from '@/lib/notion';
 import { useLoading } from '@/hooks/loading';
 import Loading from './loading';
+import Side from './Side';
 
 const Header = ({ categorys }: { categorys: CategoryProps[] }) => {
   const { isClick, handledropDown } = useSideFn();
@@ -29,23 +30,12 @@ const Header = ({ categorys }: { categorys: CategoryProps[] }) => {
           {isClick ? '▼ 카테고리' : '▲ 카테고리'}
         </span>
         {isClick && (
-          <div
-            id="dropdown-menu"
-            className="absolute top-11 right-0 z-100 w-56 rounded-md bg-white shadow-lg ring-1 ring-black dark:bg-[#1E2028]"
-          >
-            {categorys.map((v) => (
-              <p
-                className="block px-4 py-2 text-sm text-black hover:bg-gray-100 dark:text-white dark:hover:bg-[#252731]"
-                key={v.id}
-                // onClick={handleClick}
-              >
-                {v.name}
-              </p>
-            ))}
+          <div id="dropdown-menu" className="absolute top-11 right-0 z-100 bg-white">
+            <Side categorys={categorys} />
           </div>
         )}
         <DarkModeBtn />
-        {/* TODO : 글쓰기 페이지 */}
+
         <Link href="/blog/write" onClick={handleClick}>
           글쓰기
         </Link>

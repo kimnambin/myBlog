@@ -120,6 +120,8 @@ export const getDetailPost = async (
 export const getPostsByCategory = unstable_cache(
   async ({ category, pageSize = 3, startCursor }: GetPostParams = {}): Promise<GetPostResponse> => {
     try {
+      console.log('API 요청 category:', category);
+
       const response = await notion.databases.query({
         database_id: process.env.NOTION_DATABASE_ID!,
 
@@ -132,6 +134,7 @@ export const getPostsByCategory = unstable_cache(
                 },
               }
             : undefined,
+
         sorts: [{ property: 'created_at', direction: 'descending' }],
 
         page_size: pageSize,
