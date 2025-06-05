@@ -27,27 +27,26 @@ export default function CategoryList({
     return typeof category === 'string' && v.category?.includes(category);
   });
 
-  console.log(category);
+  //
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
     queryKey: ['category-posts', category],
-    initialPageParam: initNextCursor, // TODO : 여기가 문제라고 하네...
-    initialData: {
-      pages: [{ posts, hasMore: initHasMore, nextCursor: initNextCursor }],
-      pageParams: [initNextCursor],
-    },
+    initialPageParam: undefined,
 
     queryFn: async ({ pageParam }) => {
-      const res = await fetch(
-        `/api/blog?startCursor=${pageParam ?? ''}&pageSize=6&category=${category}`,
-        // categoryPosting 이거 넣어서 해보기...
-        {
-          cache: 'no-store',
-        }
-      );
+      const query = new URLSearchParams();
+
+      if (typeof category === 'string') query.append('category', category);
+      if (pageParam) query.append('startCursor', pageParam);
+      query.append('pageSize', '6');
+
+      const res = await fetch(`/api/blog?${query.toString()}`, {
+        cache: 'no-store',
+      });
 
       return res.json();
     },
+
     getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
   });
 

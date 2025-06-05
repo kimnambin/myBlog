@@ -120,8 +120,6 @@ export const getDetailPost = async (
 export const getPostsByCategory = unstable_cache(
   async ({ category, pageSize = 3, startCursor }: GetPostParams = {}): Promise<GetPostResponse> => {
     try {
-      console.log('API 요청 category:', category);
-
       const response = await notion.databases.query({
         database_id: process.env.NOTION_DATABASE_ID!,
 
@@ -138,12 +136,15 @@ export const getPostsByCategory = unstable_cache(
         sorts: [{ property: 'created_at', direction: 'descending' }],
 
         page_size: pageSize,
-        start_cursor: startCursor,
+        // start_cursor: startCursor || undefined,
+        start_cursor: startCursor && startCursor.length > 0 ? startCursor : undefined,
       });
 
       const posts = response.results
         .filter((page): page is PageObjectResponse => 'properties' in page)
         .map(getAllPost);
+
+      // console.log('Notion response results:', response.results);
 
       return {
         posts,
@@ -155,9 +156,9 @@ export const getPostsByCategory = unstable_cache(
       throw new Error('Failed to fetch posts');
     }
   },
-  ['posts'],
+  ['posts', 'category-posts'],
   {
-    tags: ['posts'],
+    tags: ['posts', 'category-posts'],
   }
 );
 
