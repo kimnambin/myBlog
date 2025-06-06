@@ -1,7 +1,6 @@
 import { PostProps } from '@/types/blog/blogPost';
 import Link from 'next/link';
 import Image from 'next/image';
-
 import Loading from '@/pages/components/layouts/loading';
 import { useLoading } from '@/hooks/loading';
 

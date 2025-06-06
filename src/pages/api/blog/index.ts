@@ -5,7 +5,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (req.method !== 'GET') return res.status(405).end();
 
   const { category, startCursor, pageSize } = req.query;
-  console.log('Request query:', req.query);
 
   const result = await getPostsByCategory({
     category: category?.toString(),

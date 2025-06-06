@@ -31,7 +31,7 @@ const Header = ({ categorys }: { categorys: CategoryProps[] }) => {
         </span>
         {isClick && (
           <div id="dropdown-menu" className="absolute top-11 right-0 z-100 bg-white">
-            <Side categorys={categorys} />
+            <Side />
           </div>
         )}
         <DarkModeBtn />

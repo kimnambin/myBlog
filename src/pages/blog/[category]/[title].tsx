@@ -1,7 +1,6 @@
 import { getDetailPost } from '@/lib/notion';
 import { PostProps } from '@/types/blog/blogPost';
 import { GetServerSidePropsContext } from 'next';
-import { useRouter } from 'next/router';
 import React from 'react';
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote';
 import remarkGfm from 'remark-gfm';
@@ -15,6 +14,45 @@ import rehypeSanitize from 'rehype-sanitize';
 import extractToc from '@stefanprobst/rehype-extract-toc';
 import { serialize } from 'next-mdx-remote/serialize';
 import { VFile } from 'vfile';
+import { notFound } from 'next/navigation';
+import { Metadata } from 'next';
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ category: string }>;
+}): Promise<Metadata> {
+  const { category } = await params;
+  const { post } = await getDetailPost(category);
+
+  if (!post) {
+    return {
+      title: '게시글을 찾을 수 없습니다',
+      description: '요청하신 게시글을 찾을 수 없습니다.',
+    };
+  }
+
+  return {
+    title: post.title,
+    description: post.description || `${post.title} - 나니의 블로그`,
+    keywords: post.tags,
+    authors: [{ name: post.author || '나니' }],
+    publisher: '나니',
+    alternates: {
+      canonical: `/blog/${post.category}`,
+    },
+    openGraph: {
+      title: post.title,
+      description: post.description,
+      url: `/blog/${post.category}`,
+      type: 'article',
+      // publishedTime: post.date,
+      // modifiedTime: post.modifiedDate,
+      // authors: post.author || '짐코딩',
+      category: post.category,
+    },
+  };
+}
 
 interface TocEntry {
   value: string;
@@ -89,9 +127,13 @@ const BlogPost = ({
   post: PostProps | null;
   toc: Toc;
 }) => {
+  if (!post) {
+    notFound();
+  }
+
   return (
     <div>
-      {/* <p>카테고리: {post?.category.join(', ')}</p> */}
+      {/* TODO : 디자인 개선해야함 */}
 
       <div className="prose prose-neutral dark:prose-invert prose-headings:scroll-mt-[var(--header-height)] max-w-none">
         <MDXRemote {...mdxSource} key={post?.post_id} />

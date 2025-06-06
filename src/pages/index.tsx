@@ -1,11 +1,20 @@
 import { getCategorysDetail, getPostsByCategory } from '@/lib/notion';
 import Side from './components/layouts/Side';
-import { GetServerSideProps } from 'next';
+import { GetStaticProps } from 'next';
 import { CategoryProps, PostProps } from '@/types/blog/blogPost';
 import PostList from './components/layouts/Mid';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Loading from './components/layouts/loading';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: '홈',
+  description: '배운 것을 잊지 않기 위해 기록하는 나니의 블로그입니다.',
+  alternates: {
+    canonical: '/',
+  },
+};
 
 export default function Home({
   posts,
@@ -22,7 +31,7 @@ export default function Home({
 }) {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
     queryKey: ['posts'],
-    initialPageParam: initNextCursor,
+    initialPageParam: undefined,
     initialData: {
       pages: [{ posts: posts, hasMore: initHasMore, nextCursor: initNextCursor }],
       pageParams: [initNextCursor],
@@ -74,7 +83,7 @@ export default function Home({
 
         <div className="hidden-side ml-auto hidden h-full flex-col items-center gap-4 sm:flex">
           <div className="flex h-full flex-col justify-between">
-            <Side categorys={categorys} />
+            <Side />
           </div>
         </div>
       </div>
@@ -82,7 +91,7 @@ export default function Home({
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const { posts, hasMore, nextCursor } = await getPostsByCategory();
   const categorys = await getCategorysDetail();
   const totalPosting = categorys[0].count;
@@ -95,5 +104,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
       initNextCursor: nextCursor,
       totalPosting,
     },
+    revalidate: 60, // 60초마다 ISR을 통해 페이지 재생성
   };
 };

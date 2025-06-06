@@ -1,33 +1,17 @@
 import { getCategorysDetail, getPostsByCategory } from '@/lib/notion';
 import PostList from '@/pages/components/layouts/Mid';
 import Side from '@/pages/components/layouts/Side';
-import { CategoryProps, PostProps } from '@/types/blog/blogPost';
-import { GetServerSideProps } from 'next';
+import { CategoryProps } from '@/types/blog/blogPost';
+import { GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
 import React from 'react';
-import { QueryClient, useInfiniteQuery, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Loading from '@/pages/components/layouts/loading';
 
-export default function CategoryList({
-  categorys,
-  posts,
-  initHasMore,
-  initNextCursor,
-}: {
-  categorys: CategoryProps[];
-  posts: PostProps[];
-  initHasMore: boolean;
-  initNextCursor: string | null;
-}) {
+export default function CategoryList({ categorys }: { categorys: CategoryProps[] }) {
   const router = useRouter();
   const { category } = router.query;
-
-  const hasCategory = posts.filter((v) => {
-    return typeof category === 'string' && v.category?.includes(category);
-  });
-
-  //
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
     queryKey: ['category-posts', category],
@@ -93,24 +77,13 @@ export default function CategoryList({
 
         <div className="hidden-side ml-auto hidden h-full flex-col items-center gap-4 sm:flex">
           <div className="flex h-full flex-col justify-between">
-            <Side categorys={categorys} />
+            <Side />
           </div>
         </div>
       </div>
     </main>
   );
 }
-
-// export const getServerSideProps: GetServerSideProps = async () => {
-//   const categorys = await getCategorysDetail();
-//   const posts = await getPostsByCategory();
-//   return {
-//     props: {
-//       posts: posts.posts,
-//       categorys,
-//     },
-//   };
-// };
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const categorys = await getCategorysDetail();

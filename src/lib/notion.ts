@@ -9,9 +9,9 @@ export const notion = new Client({
   auth: process.env.NOTION_TOKEN,
 });
 
-if (typeof window !== 'undefined') {
-  throw new Error('❌ Notion API는 클라이언트에서 사용할 수 없습니다.');
-}
+// if (typeof window !== 'undefined') {
+//   throw new Error('❌ Notion API는 클라이언트에서 사용할 수 없습니다.');
+// }
 
 const n2m = new NotionToMarkdown({ notionClient: notion });
 
@@ -136,7 +136,6 @@ export const getPostsByCategory = unstable_cache(
         sorts: [{ property: 'created_at', direction: 'descending' }],
 
         page_size: pageSize,
-        // start_cursor: startCursor || undefined,
         start_cursor: startCursor && startCursor.length > 0 ? startCursor : undefined,
       });
 
@@ -157,6 +156,7 @@ export const getPostsByCategory = unstable_cache(
     }
   },
   ['posts', 'category-posts'],
+  undefined,
   {
     tags: ['posts', 'category-posts'],
   }
@@ -168,9 +168,6 @@ export const getCategorysDetail = async (category?: string): Promise<CategoryPro
 
   const tagCount = posts.reduce(
     (acc, cur) => {
-      // cur.category?.forEach((v) => {
-      //   acc[v] = (acc[v] || 0) + 1;
-      // });
       if (!category || cur.category?.includes(category)) {
         cur.category?.forEach((v) => {
           acc[v] = (acc[v] || 0) + 1;
