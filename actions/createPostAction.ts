@@ -1,8 +1,9 @@
 'use server';
 
-import { PostFormState, BlogUploadProps } from '../types/blog/blogPost';
 import { z } from 'zod';
-import { revalidateTag } from 'next/cache';
+import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
+import { BlogUploadProps, PostFormState } from '@/types/blog/blogPost';
 
 const postSchema = z.object({
   title: z.string().min(1, { message: '제목을 입력해주세요.' }),
@@ -12,7 +13,9 @@ const postSchema = z.object({
 
 // 클라이언트 API 호출
 async function uploadBlogToApi({ title, category, content }: BlogUploadProps) {
-  const response = await fetch('/api/blog/uploadBlog', {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000';
+
+  const response = await fetch(`${baseUrl}/api/blog/uploadBlog`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

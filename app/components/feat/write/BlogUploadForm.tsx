@@ -3,8 +3,6 @@
 import { Loader2 } from 'lucide-react';
 import { useActionState, useReducer } from 'react';
 import { createPostAction } from '../../../../actions/createPostAction';
-
-// import { useRouter } from 'next/router';
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
@@ -24,17 +22,13 @@ export default function WritePage() {
   });
 
   useEffect(() => {
-    if (state.success) {
+    if (state.success || state.redirect) {
       queryClient.invalidateQueries({ queryKey: ['posts'] });
       router.push('/');
     }
   }, [state, queryClient, router]);
 
   const categories = ['전체', '기타', '코테', '회고', 'CS', 'JavaScript', 'Next.js', 'React.js'];
-
-  if (state?.redirect) {
-    router.push('/'); // 리디렉션 경로
-  }
 
   return (
     <form action={formAction}>

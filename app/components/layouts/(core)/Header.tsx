@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import { DarkModeBtn } from '../../theme/DarkModeBtn';
 import { GetServerSideProps } from 'next';
@@ -8,8 +10,8 @@ import { useSideFn } from '@/hooks/sideFn';
 import { useLoading } from '@/hooks/loading';
 
 const Header = () => {
-  // const { isClick, handledropDown } = useSideFn();
-  // const { isLoading, handleClick } = useLoading();
+  const { isClick, handledropDown } = useSideFn();
+  const { isLoading, handleClick } = useLoading();
 
   // TODO : main (/) 여기서 열면 괜찮은데 다른 곳에서 열면 map 오류 발생...
 
@@ -26,22 +28,22 @@ const Header = () => {
         </Link>
       </div>
       <nav className="relative mr-[10%] ml-auto flex items-center gap-4">
-        {/* <Link href="/" className="hover:text-hover font-medium" onClick={handleClick}>
+        <Link href="/" className="hover:text-hover font-medium" onClick={handleClick}>
           <span className="hidden font-bold sm:block">홈</span>
-        </Link> */}
-        {/* <span className="cursor-pointer font-bold" onClick={handledropDown}>
+        </Link>
+        <span className="cursor-pointer font-bold" onClick={handledropDown}>
           {isClick ? '▼ 카테고리' : '▲ 카테고리'}
-        </span> */}
-        {/* {isClick && (
+        </span>
+        {isClick && (
           <div id="dropdown-menu" className="absolute top-11 right-0 z-100 bg-white">
             <Side />
           </div>
-        )} */}
+        )}
         <DarkModeBtn />
 
-        {/* <Link href="/blog/write" onClick={handleClick}>
+        <Link href="/blog/write" onClick={handleClick}>
           글쓰기
-        </Link> */}
+        </Link>
       </nav>
     </header>
   );

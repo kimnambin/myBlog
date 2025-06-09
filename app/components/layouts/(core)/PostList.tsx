@@ -16,7 +16,6 @@ interface PostListProps {
 export default function PostList({ posts, initialCursor, hasMore, totalPosting }: PostListProps) {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
     queryKey: ['posts'],
-    // initialPageParam: initialCursor,
     initialPageParam: undefined,
     initialData: {
       pages: [{ posts, nextCursor: initialCursor, hasMore }],

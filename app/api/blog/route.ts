@@ -15,11 +15,15 @@ export async function GET(request: Request) {
       pageSize: pageSizeNum,
     });
 
-    return Response.json(result);
+    return new Response(JSON.stringify(result), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
   } catch (error) {
     console.error('Error fetching posts by category:', error);
     return new Response(JSON.stringify({ error: 'Failed to fetch posts' }), {
       status: 500,
+      headers: { 'Content-Type': 'application/json' },
     });
   }
 }

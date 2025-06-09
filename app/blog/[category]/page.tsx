@@ -1,21 +1,27 @@
-// app/blog/[category]/page.tsx
-import { getCategorysDetail, getPostsByCategory } from '@/lib/notion';
+'use client';
 
-import { CategoryProps } from '@/types/blog/blogPost';
-import React from 'react';
 import { useParams } from 'next/navigation';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import InfiniteScroll from 'react-infinite-scroll-component';
-
-import PostList from '@/app/components/layouts/(core)/PostList';
 import Side from '@/app/components/layouts/(core)/Side';
 import Loading from '@/app/components/layouts/(loading)/loading';
+import Post from '@/app/components/layouts/(core)/Mid';
+import { useEffect, useState } from 'react';
+import { getCategorysDetail } from '@/lib/notion';
+import { CategoryProps } from '@/types/blog/blogPost';
 
-export default async function CategoryList() {
-  const { category } = useParams();
+export default function CategoryList() {
+  const { category } = useParams() as { category: string };
+  const [categorys, setCategorys] = useState<CategoryProps[]>([]);
 
-  // 서버에서 데이터 가져오기
-  const categorys: CategoryProps[] = await getCategorysDetail();
+  useEffect(() => {
+    async function fetchCategorys() {
+      const res = await fetch('/api/blog/getCategory');
+      const data = await res.json();
+      setCategorys(data);
+    }
+    fetchCategorys();
+  }, []);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
     queryKey: ['category-posts', category],
@@ -36,14 +42,16 @@ export default async function CategoryList() {
     getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
   });
 
-  const categoryCnt = categorys.find((v) => v.name === category)?.count || 0;
+  const categoryCnt = data?.pages[0].posts.length;
+  // const categoryCnt = categorys.find((v) => v.name === category)?.count || 0;
 
   return (
     <main className="z-50 mt-[30px] flex w-full">
       <div className="container mx-auto flex w-full px-4">
         <div className="flex flex-[3] flex-col">
           <h1 className="mt-2.5 mb-3.5 flex text-xl font-bold">
-            『{category}』게시글 : <p className="ml-2 text-[#ef402f]">{categoryCnt}개</p>
+            『{decodeURIComponent(category)}』게시글 :{' '}
+            <p className="ml-2 text-[#ef402f]"> {categoryCnt}개 </p>
           </h1>
 
           <div className="flex-1">
@@ -52,6 +60,7 @@ export default async function CategoryList() {
               next={() => fetchNextPage()}
               hasMore={hasNextPage}
               loader
+              // TODO : 중앙에 배치시키는 것도 좋을 듯
               endMessage={
                 <p className="mt-4 text-center text-gray-500">
                   <b>더 이상 게시물이 없습니다.</b>
@@ -64,13 +73,7 @@ export default async function CategoryList() {
                 .map((v) => (
                   <div key={v.id} className="flex w-full p-2 sm:w-1/2 lg:w-1/3">
                     <div className="mt-4 flex-1 border-4 border-gray-200 bg-white px-8 py-10 opacity-100 transition-transform duration-500 hover:scale-105">
-                      <PostList
-                        data={v}
-                        // posts={posts}
-                        // initialCursor={nextCursor}
-                        // hasMore={hasMore}
-                        // totalPosting={totalPosting}
-                      />
+                      <Post data={v} />
                     </div>
                   </div>
                 ))}

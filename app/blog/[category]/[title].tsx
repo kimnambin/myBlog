@@ -34,22 +34,22 @@ export async function generateMetadata({
 
   return {
     title: post.title,
-    description: post.description || `${post.title} - 나니의 블로그`,
-    keywords: post.tags,
-    authors: [{ name: post.author || '나니' }],
+    // description: post.description || `${post.title} - 나니의 블로그`,
+    // keywords: post.tags,
+    // authors: [{ name: post.author || '나니' }],
     publisher: '나니',
     alternates: {
       canonical: `/blog/${post.category}`,
     },
+    // category: post.category,
     openGraph: {
       title: post.title,
-      description: post.description,
+      // description: post.description,
       url: `/blog/${post.category}`,
       type: 'article',
       // publishedTime: post.date,
       // modifiedTime: post.modifiedDate,
       // authors: post.author || '짐코딩',
-      category: post.category,
     },
   };
 }

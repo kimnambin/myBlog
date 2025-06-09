@@ -120,50 +120,45 @@ export const getDetailPost = async (
 };
 
 // 카테고리 별 포스팅 가져오기
-export const getPostsByCategory = unstable_cache(
-  async ({ category, pageSize = 3, startCursor }: GetPostParams = {}): Promise<GetPostResponse> => {
-    try {
-      const response = await notion.databases.query({
-        database_id: process.env.NOTION_DATABASE_ID!,
+export const getPostsByCategory = async ({
+  category = '전체',
+  pageSize = 3,
+  startCursor,
+}: GetPostParams = {}): Promise<GetPostResponse> => {
+  try {
+    const response = await notion.databases.query({
+      database_id: process.env.NOTION_DATABASE_ID!,
 
-        filter:
-          category && category !== '전체'
-            ? {
-                property: 'category',
-                multi_select: {
-                  contains: category,
-                },
-              }
-            : undefined,
+      filter:
+        category && category !== '전체'
+          ? {
+              property: 'category',
+              multi_select: {
+                contains: category,
+              },
+            }
+          : undefined,
 
-        sorts: [{ property: 'created_at', direction: 'descending' }],
+      sorts: [{ property: 'created_at', direction: 'descending' }],
 
-        page_size: pageSize,
-        start_cursor: startCursor && startCursor.length > 0 ? startCursor : undefined,
-      });
+      page_size: pageSize,
+      start_cursor: startCursor && startCursor.length > 0 ? startCursor : undefined,
+    });
 
-      const posts = response.results
-        .filter((page): page is PageObjectResponse => 'properties' in page)
-        .map(getAllPost);
+    const posts = response.results
+      .filter((page): page is PageObjectResponse => 'properties' in page)
+      .map(getAllPost);
 
-      // console.log('Notion response results:', response.results);
-
-      return {
-        posts,
-        hasMore: response.has_more,
-        nextCursor: response.next_cursor,
-      };
-    } catch (error) {
-      console.error('Error fetching posts by category:', error);
-      throw new Error('Failed to fetch posts');
-    }
-  },
-  ['posts', 'category-posts'],
-  // undefined,
-  {
-    tags: ['posts', 'category-posts'],
+    return {
+      posts,
+      hasMore: response.has_more,
+      nextCursor: response.next_cursor,
+    };
+  } catch (error) {
+    console.error('Error fetching posts by category:', error);
+    throw new Error('Failed to fetch posts');
   }
-);
+};
 
 // 카테고리 별 블로그 갯수
 export const getCategorysDetail = async (category?: string): Promise<CategoryProps[]> => {
