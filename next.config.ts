@@ -3,6 +3,7 @@ import createMDX from '@next/mdx';
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+
   images: {
     domains: ['www.notion.so', 'images.unsplash.com', 'img.notionusercontent.com', 'www.dior.com'],
     remotePatterns: [
@@ -13,16 +14,8 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'www.notion.so',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
         hostname: 'prod-files-secure.s3.us-west-2.amazonaws.com',
         pathname: '/**',
-      },
-      {
-        hostname: 'www.notion.so',
       },
     ],
   },
