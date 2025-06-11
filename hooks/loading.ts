@@ -1,25 +1,19 @@
 'use client';
 
-// TODO : 이 페이지가 꼭 필요한가?? (고민)
+// TODO : 2초 후에도 이동하지 못하는 경우가 있음....
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 export const useLoading = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
 
   const handleClick = () => {
     setIsLoading(true);
-  };
 
-  useEffect(() => {
-    const handleRouteChangeComplete = () => {
+    setTimeout(() => {
       setIsLoading(false);
-    };
-
-    return () => {};
-  }, [router]);
+    }, 2000);
+  };
 
   return {
     isLoading,

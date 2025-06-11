@@ -40,11 +40,11 @@ export default function PostList({ posts, initialCursor, hasMore, totalPosting }
         next={fetchNextPage}
         hasMore={hasNextPage ?? false}
         loader
-        endMessage={
-          <p className="mt-4 text-center text-gray-500">
-            <b>더 이상 게시물이 없습니다.</b>
-          </p>
-        }
+        // endMessage={
+        //   <p className="mt-4 text-center text-gray-500">
+        //     <b>더 이상 게시물이 없습니다.</b>
+        //   </p>
+        // }
         className="-m-4 flex flex-wrap"
       >
         {data?.pages

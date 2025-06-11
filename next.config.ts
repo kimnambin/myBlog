@@ -30,6 +30,11 @@ const nextConfig: NextConfig = {
   },
 };
 
-const withMDX = createMDX({});
+const withMDX = createMDX({
+  // options: {
+  //   remarkPlugins: [remarkGfm],
+  //   rehypePlugins: [['rehype-katex', { strict: true, throwOnError: true }]],
+  // },
+});
 
 export default withMDX(nextConfig);

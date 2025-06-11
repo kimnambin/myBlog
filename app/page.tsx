@@ -4,7 +4,7 @@ import PostList from './components/layouts/(core)/PostList';
 import Side from './components/layouts/(core)/Side';
 
 export const metadata: Metadata = {
-  title: '홈',
+  title: 'Nani Blog',
   description: '배운 것을 잊지 않기 위해 기록하는 나니의 블로그입니다.',
   alternates: {
     canonical: '/',

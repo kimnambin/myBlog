@@ -7,7 +7,6 @@ import Side from '@/app/components/layouts/(core)/Side';
 import Loading from '@/app/components/layouts/(loading)/loading';
 import Post from '@/app/components/layouts/(core)/Mid';
 import { useEffect, useState } from 'react';
-import { getCategorysDetail } from '@/lib/notion';
 import { CategoryProps } from '@/types/blog/blogPost';
 
 export default function CategoryList() {
@@ -48,7 +47,7 @@ export default function CategoryList() {
   return (
     <main className="z-50 mt-[30px] flex w-full">
       <div className="container mx-auto flex w-full px-4">
-        <div className="flex flex-[3] flex-col">
+        <div className="mb-4 flex flex-[3] flex-col">
           <h1 className="mt-2.5 mb-3.5 flex text-xl font-bold">
             『{decodeURIComponent(category)}』게시글 :{' '}
             <p className="ml-2 text-[#ef402f]"> {categoryCnt}개 </p>

@@ -1,10 +1,12 @@
 import { AppProps } from 'next/app';
 import '../styles/globals.css';
-import Header from '../components/layouts/Header';
-import Footer from '../components/layouts/Footer';
+
 import { ThemeProvider } from 'next-themes';
 import { Metadata } from 'next';
-import { Providers } from './providers';
+
+import Header from '@/app/components/layouts/(core)/Header';
+import Footer from '@/app/components/layouts/(core)/Footer';
+import { Providers } from '@/app/providers';
 
 // TODO : 폰트 적용 예시
 // import { Geist, Geist_Mono } from 'next/font/google';
@@ -49,7 +51,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     <>
       <ThemeProvider attribute="class">
         <Providers>
-          <Header categorys={pageProps.categorys} />
+          <Header />
           <div className="relative mx-auto flex min-h-screen w-[80%] flex-col items-center justify-start">
             <Component {...pageProps} />
           </div>
