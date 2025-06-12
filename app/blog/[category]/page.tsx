@@ -8,10 +8,13 @@ import Loading from '@/app/components/layouts/(loading)/loading';
 import Post from '@/app/components/layouts/(core)/Mid';
 import { useEffect, useState } from 'react';
 import { CategoryProps } from '@/types/blog/blogPost';
+import NoContent from '@/app/components/layouts/(etc)/NoContent';
+
+// TODO : 기타랑 회고 게시글이 있는 데 0개로 가져옴...
 
 export default function CategoryList() {
   const { category } = useParams() as { category: string };
-  const [categorys, setCategorys] = useState<CategoryProps[]>([]);
+  const [_, setCategorys] = useState<CategoryProps[]>([]);
 
   useEffect(() => {
     async function fetchCategorys() {
@@ -42,7 +45,6 @@ export default function CategoryList() {
   });
 
   const categoryCnt = data?.pages[0].posts.length;
-  // const categoryCnt = categorys.find((v) => v.name === category)?.count || 0;
 
   return (
     <main className="z-50 mt-[30px] flex w-full">
@@ -54,29 +56,28 @@ export default function CategoryList() {
           </h1>
 
           <div className="flex-1">
-            <InfiniteScroll
-              dataLength={data?.pages.flatMap((page) => page.posts).length ?? 0}
-              next={() => fetchNextPage()}
-              hasMore={hasNextPage}
-              loader
-              // TODO : 중앙에 배치시키는 것도 좋을 듯
-              endMessage={
-                <p className="mt-4 text-center text-gray-500">
-                  <b>더 이상 게시물이 없습니다.</b>
-                </p>
-              }
-              className="-m-4 flex flex-wrap"
-            >
-              {data?.pages
-                .flatMap((page) => page.posts)
-                .map((v) => (
-                  <div key={v.id} className="flex w-full p-2 sm:w-1/2 lg:w-1/3">
-                    <div className="mt-4 flex-1 border-4 border-gray-200 bg-white px-8 py-10 opacity-100 transition-transform duration-500 hover:scale-105">
-                      <Post data={v} />
+            {categoryCnt == 0 ? (
+              <NoContent />
+            ) : (
+              <InfiniteScroll
+                dataLength={data?.pages.flatMap((page) => page.posts).length ?? 0}
+                next={() => fetchNextPage()}
+                hasMore={hasNextPage}
+                loader
+                className="-m-4 flex flex-wrap"
+              >
+                {data?.pages
+                  .flatMap((page) => page.posts)
+                  .map((v) => (
+                    <div key={v.id} className="flex w-full p-2 sm:w-1/2 lg:w-1/3">
+                      <div className="mt-4 flex-1 border-4 border-gray-200 bg-white px-8 py-10 opacity-100 transition-transform duration-500 hover:scale-105">
+                        <Post data={v} />
+                      </div>
                     </div>
-                  </div>
-                ))}
-            </InfiniteScroll>
+                  ))}
+              </InfiniteScroll>
+            )}
+
             {isFetchingNextPage && <Loading text="게시글 불러오는 중..." />}
           </div>
         </div>

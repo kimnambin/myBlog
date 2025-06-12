@@ -1,6 +1,6 @@
 import { PostProps } from '../../../../types/blog/blogPost';
 import Link from 'next/link';
-import Image from 'next/image';
+import Image from "next/legacy/image";
 import Loading from '../(loading)/loading';
 import { useLoading } from '../../../../hooks/loading';
 

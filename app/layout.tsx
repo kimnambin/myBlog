@@ -28,14 +28,16 @@ export const metadata: Metadata = {
   },
 };
 
+//TODO : 하이브레이션? 오류 해결해야 함...
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ko" className="scroll-smooth" suppressHydrationWarning>
+    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <head>
         <meta name="description" content="나니의 블로그입니닷" />
         <link rel="icon" href="/img/main.jpg" />
       </head>
-      <body className="antialiased">
+      <body>
         <Providers>
           <Header />
           <main className="relative mx-auto flex min-h-screen w-[80%] flex-col items-center justify-start">

@@ -137,6 +137,15 @@
   }
 }
 
+@media (max-width: 900px) {
+  .TableOfContentsLink {
+    display: none;
+  }
+  .mobileContent {
+    display: grid;
+  }
+}
+
 .c {
   position: relative;
   top: 0;
@@ -145,4 +154,6 @@
   height: 100vh;
   z-index: 1000;
   background-color: rgba(0, 0, 0, 0.6);
+  text-decoration: underline;
+  border-radius: 15px;
 }

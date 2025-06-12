@@ -15,7 +15,6 @@ import ShowPosting from '../../../components/layouts/(detatilBlog)/ShowPosting';
 export async function generateMetadata({
   params,
 }: {
-  // params: Promise<{ category: string }>;
   params: { title: string };
 }): Promise<Metadata> {
   const { title } = await params;
@@ -37,7 +36,7 @@ export async function generateMetadata({
     alternates: {
       canonical: `/blog/${post.category}`,
     },
-    category: post.category,
+    category: post.category?.[0],
     openGraph: {
       title: post.title,
       url: `/blog/${post.category}/${post.title}`,
@@ -79,7 +78,7 @@ function TableOfContentsLink({ item }: { item: TocEntry }) {
         {item.value}
       </Link>
       {item.children && item.children.length > 0 && (
-        <div className="space-y-2 pl-4">
+        <div className="space-y-2 pl-4 font-bold">
           {item.children.map((subItem) => (
             <TableOfContentsLink key={subItem.id} item={subItem} />
           ))}
@@ -106,18 +105,26 @@ const BlogPost = async ({ params }: { params: { category: string; title: string 
     rehypePlugins: [withSlugs, rehypeSanitize, withToc, withTocExport],
   });
 
-  // TODO : 디자인 개선해야 함
+  //  TODO : 디자인 -> 목차 부분 디자인 개선하기!!
+
   return (
-    <div>
+    <div className="mobileContent flex w-full items-center justify-between border-b p-5">
       <div className="prose prose-neutral dark:prose-invert prose-headings:scroll-mt-[var(--header-height)] max-w-none">
-        <ShowPosting source={mdxSource} />
+        <ShowPosting source={mdxSource} category={post?.category} />
       </div>
 
-      <nav className="space-y-3 text-sm">
+      <nav className="TableOfContentsLink dark:prose-invert flex flex-col justify-center gap-2 rounded-2xl border-4 border-gray-200 bg-gray-200 p-5">
         {data?.toc?.map((item: any) => <TableOfContentsLink key={item.id} item={item} />)}
       </nav>
-
-      {/* <GiscusComments /> */}
+      {/* 모바일 환경 시 */}
+      <div className="fixed right-10 bottom-15 hidden rounded-full bg-[#3498db] px-5 py-2 text-white max-[900px]:block">
+        <details className="bg-muted/60 rounded-lg p-4 backdrop-blur-sm">
+          <summary className="cursor-pointer text-lg font-semibold">목차</summary>
+          <nav className="mt-3 space-y-3 text-sm">
+            {data?.toc?.map((item) => <TableOfContentsLink key={item.id} item={item} />)}
+          </nav>
+        </details>
+      </div>
     </div>
   );
 };
