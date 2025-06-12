@@ -10,8 +10,6 @@ import { useEffect, useState } from 'react';
 import { CategoryProps } from '@/types/blog/blogPost';
 import NoContent from '@/app/components/layouts/(etc)/NoContent';
 
-// TODO : 기타랑 회고 게시글이 있는 데 0개로 가져옴...
-
 export default function CategoryList() {
   const { category } = useParams() as { category: string };
   const [_, setCategorys] = useState<CategoryProps[]>([]);
@@ -20,6 +18,7 @@ export default function CategoryList() {
     async function fetchCategorys() {
       const res = await fetch('/api/blog/getCategory');
       const data = await res.json();
+
       setCategorys(data);
     }
     fetchCategorys();
@@ -31,7 +30,8 @@ export default function CategoryList() {
     queryFn: async ({ pageParam }) => {
       const query = new URLSearchParams();
 
-      if (typeof category === 'string') query.append('category', category);
+      const decodedCategory = decodeURIComponent(category);
+      if (typeof category === 'string') query.append('category', decodedCategory);
       if (pageParam) query.append('startCursor', pageParam);
       query.append('pageSize', '6');
 
@@ -43,6 +43,8 @@ export default function CategoryList() {
     },
     getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
   });
+
+  // console.log('카테고리 페이지임', data);
 
   const categoryCnt = data?.pages[0].posts.length;
 

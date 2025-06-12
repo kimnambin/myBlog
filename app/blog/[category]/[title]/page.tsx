@@ -1,6 +1,6 @@
 import { getDetailPost, getPostsByCategory } from '../../../../lib/notion';
 import React from 'react';
-import { MDXRemote } from 'next-mdx-remote';
+
 import Link from 'next/link';
 import rehypeSanitize from 'rehype-sanitize';
 import { notFound } from 'next/navigation';
@@ -39,7 +39,7 @@ export async function generateMetadata({
     category: post.category?.[0],
     openGraph: {
       title: post.title,
-      url: `/blog/${post.category}/${post.title}`,
+      url: `/blog/${post.category}/${post.title.slice(0, 11)}`,
       type: 'article',
     },
   };
@@ -68,6 +68,8 @@ export const generateStaticParams = async () => {
 export const revalidate = 60;
 
 function TableOfContentsLink({ item }: { item: TocEntry }) {
+  // console.log('목차 아이템', item);
+
   return (
     <div className="space-y-2">
       <Link
@@ -106,7 +108,9 @@ const BlogPost = async ({ params }: { params: { category: string; title: string 
   });
 
   //  TODO : 디자인 -> 목차 부분 디자인 개선하기!!
+  //  이동이 잘안됨 ㅠㅠ
 
+  console.log('dadas', data);
   return (
     <div className="mobileContent flex w-full items-center justify-between border-b p-5">
       <div className="prose prose-neutral dark:prose-invert prose-headings:scroll-mt-[var(--header-height)] max-w-none">

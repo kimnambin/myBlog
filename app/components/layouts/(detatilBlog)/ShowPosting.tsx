@@ -20,7 +20,7 @@ export default function ShowPosting({ source, category }: Props) {
         {category?.map((v) => (
           <p
             key={v}
-            className="w-[80px] rounded-2xl text-center font-bold text-white transition-transform duration-500 hover:scale-105"
+            className="w-[85px] rounded-2xl text-center font-bold text-white transition-transform duration-500 hover:scale-105"
             style={{ backgroundColor: BgColor[v] ?? '#0264fb' }}
           >
             {v}

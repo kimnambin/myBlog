@@ -32,17 +32,13 @@ const Side = () => {
         <h2 className="font-bold">🔍제목 검색</h2>
         <input placeholder="검색어를 입력해주세요." className="rounded-1xl border-4" />
         <br />
-        <h2 className="font-bold">📌카테고리 검색</h2>
+        <h2 className="mb-2 font-bold">📌카테고리 검색</h2>
 
         {/* TODO : 이동이 넘 느림 */}
         {isLoading && <Loading text="페이지 이동 중..." />}
         <div className="grid grid-cols-[repeat(2,_1fr)] gap-1.5">
-          {data?.categorys?.map((v) => (
-            <Link
-              href={v.name == '전체' ? '/' : `/blog/${v.name}/`}
-              key={v.id}
-              onClick={handleClick}
-            >
+          {data?.categorys?.slice(1).map((v) => (
+            <Link href={`/blog/${v.name}/`} key={v.id} onClick={handleClick}>
               <p
                 className="mb-1.5 rounded-2xl text-center font-bold text-white transition-transform duration-500 hover:scale-105"
                 style={{ backgroundColor: BgColor[v.name] || '#0264fb' }}
