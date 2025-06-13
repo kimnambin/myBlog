@@ -157,3 +157,8 @@
   text-decoration: underline;
   border-radius: 15px;
 }
+.cc {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+}

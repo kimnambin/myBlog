@@ -1,6 +1,4 @@
 import { getDetailPost, getPostsByCategory } from '../../../../lib/notion';
-import React from 'react';
-
 import Link from 'next/link';
 import rehypeSanitize from 'rehype-sanitize';
 import { notFound } from 'next/navigation';
@@ -11,6 +9,7 @@ import withToc from '@stefanprobst/rehype-extract-toc';
 import withTocExport from '@stefanprobst/rehype-extract-toc/mdx';
 import { serialize } from 'next-mdx-remote/serialize';
 import ShowPosting from '../../../components/layouts/(detatilBlog)/ShowPosting';
+import TableOfContents from '../../../components/layouts/(detatilBlog)/TableContent';
 
 export async function generateMetadata({
   params,
@@ -45,13 +44,6 @@ export async function generateMetadata({
   };
 }
 
-interface TocEntry {
-  value: string;
-  depth: number;
-  id?: string;
-  children?: Array<TocEntry>;
-}
-
 export const generateStaticParams = async () => {
   const { posts } = await getPostsByCategory();
 
@@ -67,29 +59,6 @@ export const generateStaticParams = async () => {
 
 export const revalidate = 60;
 
-function TableOfContentsLink({ item }: { item: TocEntry }) {
-  // console.log('목차 아이템', item);
-
-  return (
-    <div className="space-y-2">
-      <Link
-        key={item.id}
-        href={`#${item.id}`}
-        className={`hover:text-foreground text-muted-foreground block font-medium transition-colors`}
-      >
-        {item.value}
-      </Link>
-      {item.children && item.children.length > 0 && (
-        <div className="space-y-2 pl-4 font-bold">
-          {item.children.map((subItem) => (
-            <TableOfContentsLink key={subItem.id} item={subItem} />
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
-
 const BlogPost = async ({ params }: { params: { category: string; title: string } }) => {
   const { title } = await params;
 
@@ -97,7 +66,11 @@ const BlogPost = async ({ params }: { params: { category: string; title: string 
 
   const { markdown, post } = await getDetailPost(decodedTitle);
 
-  const mdxSource = await serialize(markdown);
+  const mdxSource = await serialize(markdown, {
+    mdxOptions: {
+      rehypePlugins: [withSlugs, rehypeSanitize, withToc, withTocExport],
+    },
+  });
 
   if (!markdown) {
     return notFound();
@@ -108,24 +81,26 @@ const BlogPost = async ({ params }: { params: { category: string; title: string 
   });
 
   //  TODO : 디자인 -> 목차 부분 디자인 개선하기!!
-  //  이동이 잘안됨 ㅠㅠ
 
-  console.log('dadas', data);
   return (
-    <div className="mobileContent flex w-full items-center justify-between border-b p-5">
-      <div className="prose prose-neutral dark:prose-invert prose-headings:scroll-mt-[var(--header-height)] max-w-none">
+    <div className="mobileContent flex w-full gap-6 border-b p-5">
+      <div className="prose prose-neutral dark:prose-invert prose-headings:scroll-mt-[var(--header-height)] max-w-none flex-1">
         <ShowPosting source={mdxSource} category={post?.category} />
       </div>
 
-      <nav className="TableOfContentsLink dark:prose-invert flex flex-col justify-center gap-2 rounded-2xl border-4 border-gray-200 bg-gray-200 p-5">
-        {data?.toc?.map((item: any) => <TableOfContentsLink key={item.id} item={item} />)}
+      <div className="flex w-52"></div>
+
+      <nav className="TableOfContentsLink dark:prose-invert fixed top-[var(--header-height)] right-[10%] z-[1000] flex h-[calc(100vh-var(--header-height))] w-64 flex-col gap-2 overflow-y-auto p-5">
+        <p className="cursor-pointer text-lg font-semibold">목차</p>
+        <TableOfContents toc={data?.toc ?? []} />
       </nav>
+
       {/* 모바일 환경 시 */}
-      <div className="fixed right-10 bottom-15 hidden rounded-full bg-[#3498db] px-5 py-2 text-white max-[900px]:block">
+      <div className="fixed right-10 bottom-15 hidden rounded-full px-5 py-2 text-black max-[900px]:block">
         <details className="bg-muted/60 rounded-lg p-4 backdrop-blur-sm">
           <summary className="cursor-pointer text-lg font-semibold">목차</summary>
           <nav className="mt-3 space-y-3 text-sm">
-            {data?.toc?.map((item) => <TableOfContentsLink key={item.id} item={item} />)}
+            <TableOfContents toc={data?.toc ?? []} />
           </nav>
         </details>
       </div>
