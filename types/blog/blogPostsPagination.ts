@@ -8,6 +8,7 @@ export interface GetPostParams {
 
 export interface GetPostResponse {
   posts: PostProps[];
+  sort?: string;
   hasMore: boolean;
   nextCursor: string | null;
 }

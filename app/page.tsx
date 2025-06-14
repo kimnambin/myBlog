@@ -17,7 +17,7 @@ const Home = async () => {
   const totalPosting = categorys[0].count;
 
   return (
-    <main className="z-50 mt-[30px] flex w-full">
+    <main className="z-50 mt-[30px] mb-6.5 flex w-full">
       <div className="container mx-auto flex w-full px-4">
         <div className="flex flex-[3] flex-col">
           <PostList

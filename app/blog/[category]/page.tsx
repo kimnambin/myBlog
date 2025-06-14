@@ -5,10 +5,11 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Side from '@/app/components/layouts/(core)/Side';
 import Loading from '@/app/components/layouts/(loading)/loading';
-import Post from '@/app/components/layouts/(core)/Mid';
 import { useEffect, useState } from 'react';
 import { CategoryProps } from '@/types/blog/blogPost';
 import NoContent from '@/app/components/layouts/(etc)/NoContent';
+import FlexCard from '@/app/components/layouts/(view)/FlexCard';
+import GridCard from '@/app/components/layouts/(view)/GridCard';
 
 export default function CategoryList() {
   const { category } = useParams() as { category: string };
@@ -73,7 +74,7 @@ export default function CategoryList() {
                   .map((v) => (
                     <div key={v.id} className="flex w-full p-2 sm:w-1/2 lg:w-1/3">
                       <div className="mt-4 flex-1 border-4 border-gray-200 bg-white px-8 py-10 opacity-100 transition-transform duration-500 hover:scale-105">
-                        <Post data={v} />
+                        <GridCard data={v} />
                       </div>
                     </div>
                   ))}

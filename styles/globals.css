@@ -146,6 +146,11 @@
   }
 }
 
+.iconSize {
+  width: 28px;
+  height: 28px;
+}
+
 .c {
   position: relative;
   top: 0;
@@ -155,7 +160,7 @@
   z-index: 1000;
   background-color: rgba(0, 0, 0, 0.6);
   text-decoration: underline;
-  border-radius: 15px;
+  border-radius: 50%;
 }
 .cc {
   position: fixed;

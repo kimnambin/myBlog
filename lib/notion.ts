@@ -12,15 +12,13 @@ export const notion = new Client({
   auth: process.env.NOTION_TOKEN,
 });
 
-// if (typeof window !== 'undefined') {
-//   throw new Error('❌ Notion API는 클라이언트에서 사용할 수 없습니다.');
-// }
-
 const n2m = new NotionToMarkdown({ notionClient: notion });
 
 // 전체 블로그 내용 가져오기
 export const getAllPost = (page: PageObjectResponse): PostProps => {
   const { properties } = page;
+
+  // console.log(properties);
 
   const getCoverImage = (cover: PageObjectResponse['cover']) => {
     if (!cover) return '';
@@ -39,11 +37,6 @@ export const getAllPost = (page: PageObjectResponse): PostProps => {
     id: page.id,
     title: properties.title?.type === 'title' ? (properties.title.title[0]?.plain_text ?? '') : '',
 
-    subtitle:
-      properties.subtitle?.type === 'rich_text'
-        ? (properties.subtitle.rich_text[0]?.plain_text ?? '')
-        : '',
-
     post_id:
       properties.post_id?.type === 'rich_text'
         ? (properties.post_id.rich_text[0]?.plain_text ?? '')
@@ -54,28 +47,17 @@ export const getAllPost = (page: PageObjectResponse): PostProps => {
         ? properties.category.multi_select.map((tag) => tag.name)
         : [],
 
-    created_at:
-      properties.created_at?.type === 'date' ? (properties.created_at.date?.start ?? null) : null,
-
-    comments:
-      properties.comments?.type === 'rich_text'
-        ? properties.comments.rich_text.map((r) => r.plain_text)
-        : [],
-
     likes:
       properties.likes?.type === 'rich_text'
         ? properties.likes.rich_text.map((r) => r.plain_text)
         : [],
 
-    nickname:
-      properties.nickname?.type === 'rich_text'
-        ? (properties.nickname.rich_text[0]?.plain_text ?? '')
-        : '',
-
     img:
       properties.img?.type === 'rich_text' ? properties.img.rich_text.map((r) => r.href ?? '') : [],
 
     coverImage: getCoverImage(page.cover),
+
+    createdTime: page.created_time,
   };
 };
 
@@ -122,7 +104,7 @@ export const getDetailPost = async (
 // 카테고리 별 포스팅 가져오기
 export const getPostsByCategory = async ({
   category = '전체',
-  pageSize = 3,
+  pageSize = 4,
   startCursor,
 }: GetPostParams = {}): Promise<GetPostResponse> => {
   try {
@@ -139,7 +121,7 @@ export const getPostsByCategory = async ({
             }
           : undefined,
 
-      sorts: [{ property: 'created_at', direction: 'descending' }],
+      sorts: [{ property: 'createdTime', direction: 'descending' }],
 
       page_size: pageSize,
       start_cursor: startCursor && startCursor.length > 0 ? startCursor : undefined,

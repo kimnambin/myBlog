@@ -6,15 +6,12 @@ export interface PostListProps {
 export interface PostProps {
   id?: string;
   title: string;
-  subtitle?: string;
   category?: string[];
   coverImage?: string;
-  created_at?: string | null;
   post_id?: string;
-  comments?: string[];
   likes?: string[];
-  nickname?: string;
   img?: string[];
+  createdTime: string;
 }
 
 export interface CategoryProps {

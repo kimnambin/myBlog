@@ -26,14 +26,14 @@ const Header = () => {
         </Link>
       </div>
 
-      <nav className="relative mr-[10%] ml-auto flex items-center gap-4">
+      <nav className="relative mr-[10%] flex items-center gap-4">
         <aside className="menubar flex items-center gap-2.5">
           <div className="cursor-pointer md:hidden" onClick={handledropDown}>
             {isClick ? '✖' : <TiThMenuOutline className="h-[28px] w-[28px]" />}
           </div>
 
           <div className="hidden items-center gap-2.5 md:flex">
-            <span className="cursor-pointer font-bold" onClick={handledropDown}>
+            <span className="hover:text-hover cursor-pointer font-bold" onClick={handledropDown}>
               {isClick ? '▼ 카테고리' : '▲ 카테고리'}
             </span>
             {isClick && (
@@ -42,7 +42,7 @@ const Header = () => {
               </div>
             )}
             <DarkModeBtn />
-            <Link href="/blog/write" onClick={handleClick}>
+            <Link href="/blog/write" onClick={handleClick} className="hover:text-hover font-bold">
               글쓰기
             </Link>
           </div>

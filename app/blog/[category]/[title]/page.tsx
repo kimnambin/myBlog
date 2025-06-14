@@ -1,5 +1,4 @@
 import { getDetailPost, getPostsByCategory } from '../../../../lib/notion';
-import Link from 'next/link';
 import rehypeSanitize from 'rehype-sanitize';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
@@ -10,6 +9,8 @@ import withTocExport from '@stefanprobst/rehype-extract-toc/mdx';
 import { serialize } from 'next-mdx-remote/serialize';
 import ShowPosting from '../../../components/layouts/(detatilBlog)/ShowPosting';
 import TableOfContents from '../../../components/layouts/(detatilBlog)/TableContent';
+import { BgColor } from '@/app/components/model/category';
+import { BsCalendarDate } from 'react-icons/bs';
 
 export async function generateMetadata({
   params,
@@ -80,26 +81,42 @@ const BlogPost = async ({ params }: { params: { category: string; title: string 
     rehypePlugins: [withSlugs, rehypeSanitize, withToc, withTocExport],
   });
 
-  //  TODO : 디자인 -> 목차 부분 디자인 개선하기!!
-
   return (
-    <div className="mobileContent flex w-full gap-6 border-b p-5">
+    <div className="mobileContent mt-3 flex w-full gap-4.5 border-b p-5">
       <div className="prose prose-neutral dark:prose-invert prose-headings:scroll-mt-[var(--header-height)] max-w-none flex-1">
-        <ShowPosting source={mdxSource} category={post?.category} />
+        <span className="align-center flex gap-2.5">
+          {post?.category?.map((v) => (
+            <p
+              key={v}
+              className="w-[85px] rounded-2xl text-center font-bold text-white transition-transform duration-500 hover:scale-105"
+              style={{ backgroundColor: BgColor[v] ?? '#0264fb' }}
+            >
+              {v}
+            </p>
+          ))}
+        </span>
+        <h1 className="font-blod">{post?.title}</h1>
+        <span className="align-center mt-[-20px] mb-9 flex items-center gap-2.5">
+          <BsCalendarDate style={{ verticalAlign: 'middle' }} />
+          {post?.createdTime.slice(0, 10)}
+        </span>
+        <ShowPosting source={mdxSource} />
       </div>
 
       <div className="flex w-52"></div>
 
-      <nav className="TableOfContentsLink dark:prose-invert fixed top-[var(--header-height)] right-[10%] z-[1000] flex h-[calc(100vh-var(--header-height))] w-64 flex-col gap-2 overflow-y-auto p-5">
+      <nav className="TableOfContentsLink dark:prose-invert bg-muted/60 fixed top-[var(--header-height)] right-[9%] z-[1000] flex h-[calc(100vh-var(--header-height))] w-64 flex-col gap-2 overflow-y-auto p-5">
         <p className="cursor-pointer text-lg font-semibold">목차</p>
         <TableOfContents toc={data?.toc ?? []} />
       </nav>
 
       {/* 모바일 환경 시 */}
-      <div className="fixed right-10 bottom-15 hidden rounded-full px-5 py-2 text-black max-[900px]:block">
-        <details className="bg-muted/60 rounded-lg p-4 backdrop-blur-sm">
-          <summary className="cursor-pointer text-lg font-semibold">목차</summary>
-          <nav className="mt-3 space-y-3 text-sm">
+      <div className="fixed right-10 bottom-15 hidden px-5 py-2 text-black max-[900px]:block">
+        <details className="backdrop-blur-sm">
+          <summary className="flex cursor-pointer items-center justify-between bg-black p-4 text-lg font-semibold text-white transition-colors duration-300 ease-in-out">
+            <span>목차</span>
+          </summary>
+          <nav className="space-y-3 bg-white p-4 text-sm transition-all duration-300 ease-in-out">
             <TableOfContents toc={data?.toc ?? []} />
           </nav>
         </details>
