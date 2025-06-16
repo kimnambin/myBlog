@@ -3,7 +3,7 @@ import { getPostsByCategory } from '@/lib/notion';
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
 
-  const category = searchParams.get('category') || undefined;
+  const category = searchParams.get('category') || '전체';
   const startCursor = searchParams.get('startCursor') || undefined;
   const pageSize = searchParams.get('pageSize');
   const pageSizeNum = pageSize ? parseInt(pageSize, 10) : 6;
@@ -14,7 +14,7 @@ export async function GET(request: Request) {
       startCursor,
       pageSize: pageSizeNum,
     });
-
+    console.log('dfsda', result);
     return new Response(JSON.stringify(result), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },

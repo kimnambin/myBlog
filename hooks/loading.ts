@@ -1,22 +1,17 @@
 'use client';
 
-// TODO : 2초 후에도 이동하지 못하는 경우가 있음....
-
 import { useState } from 'react';
 
 export const useLoading = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingBar, setLoading] = useState(false);
 
-  const handleClick = () => {
-    setIsLoading(true);
-
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
+  const startLoading = () => {
+    setLoading(true);
   };
 
-  return {
-    isLoading,
-    handleClick,
+  const stopLoading = () => {
+    setLoading(false);
   };
+
+  return { isLoadingBar, startLoading, stopLoading };
 };

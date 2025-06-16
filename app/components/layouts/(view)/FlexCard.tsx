@@ -7,38 +7,32 @@ import Loading from '../(loading)/loading';
 import { BsCalendarDate } from 'react-icons/bs';
 import { BgColor } from '../../model/category';
 
-// TODO : 모바일 때 화면 이상함....
-
 const FlexCard = ({ data }: { data: PostProps }) => {
-  const { isLoading, handleClick } = useLoading();
-
+  const { isLoadingBar, startLoading } = useLoading();
   return (
     <>
-      {isLoading && <Loading text={'게시글 보러 가는 중...'} />}
-
+      {isLoadingBar && <Loading />}
       <Link
         href={`/blog/${data.category?.slice(0, 1)}/${data.title}`}
-        onClick={handleClick}
         prefetch
+        onClick={startLoading}
       >
-        <div className="mt-5 flex flex-row items-start justify-between gap-4 border-b p-3.5">
-          <main className="flex h-full flex-col justify-between gap-2">
-            <h1 className="overflow-hidden text-sm font-bold text-ellipsis whitespace-nowrap sm:text-lg">
-              {data?.title}
+        <div className="mt-5 flex flex-row items-start justify-between gap-4 border-b">
+          <main className="flex h-full w-2/3 flex-col justify-between gap-1">
+            <h1 className="overflow-hidden text-xs font-bold text-ellipsis whitespace-nowrap sm:text-lg">
+              {data?.title.slice(0, 16)}
             </h1>
-
             <span className="flex flex-row flex-wrap gap-1">
               {data?.category?.map((v) => (
                 <p
                   key={v}
-                  className="rounded-2xl text-center text-xs font-bold text-white transition-transform duration-500 hover:scale-105 sm:text-sm"
+                  className="overflow-hidden rounded-2xl text-center text-xs font-bold text-white transition-transform duration-500 hover:scale-105 sm:text-sm"
                   style={{ backgroundColor: BgColor[v] ?? '#0264fb', padding: '2px 4px' }}
                 >
                   {v}
                 </p>
               ))}
             </span>
-
             <span className="flex flex-row items-center gap-2">
               <BsCalendarDate className="align-middle" />
               <span className="text-sm">{data?.createdTime.slice(0, 10)}</span>

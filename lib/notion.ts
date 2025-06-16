@@ -5,9 +5,6 @@ import { NotionToMarkdown } from 'notion-to-md';
 import { GetPostParams, GetPostResponse } from '../types/blog/blogPostsPagination';
 import { unstable_cache } from 'next/cache';
 
-// TODO : 공개 , 비공개 게시글 추가해도 좋을 듯
-// https://github.com/gymcoding/notion-blog-nextjs-course/blob/main/lib/notion.ts
-
 export const notion = new Client({
   auth: process.env.NOTION_TOKEN,
 });

@@ -6,16 +6,13 @@ import Image from 'next/legacy/image';
 import Loading from '../(loading)/loading';
 
 const GridCard = ({ data }: { data: PostProps }) => {
-  const { isLoading, handleClick } = useLoading();
-
-  {
-    isLoading && <Loading text={'게시글 보러 가는 중...'} />;
-  }
+  const { isLoadingBar, startLoading } = useLoading();
   return (
-    <div>
+    <>
+      {isLoadingBar && <Loading />}
       <Link
         href={`/blog/${data.category?.slice(0, 1)}/${data.title}`}
-        onClick={handleClick}
+        onClick={startLoading}
         prefetch
       >
         <div className="relative w-full pb-[61.8%]">
@@ -30,7 +27,8 @@ const GridCard = ({ data }: { data: PostProps }) => {
         </div>
         <h1>{data.title ?? '제목을 불러올 수 없음'}</h1>
       </Link>
-    </div>
+      {/* )} */}
+    </>
   );
 };
 

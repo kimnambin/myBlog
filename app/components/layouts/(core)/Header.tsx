@@ -8,25 +8,35 @@ import Loading from '../(loading)/loading';
 import Side from './Side';
 import { useSideFn } from '@/hooks/sideFn';
 import { useLoading } from '@/hooks/loading';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { TiThMenuOutline } from 'react-icons/ti';
+import { usePathname } from 'next/navigation';
 
 const Header = () => {
   const { isClick, handledropDown } = useSideFn();
-  const { isLoading, handleClick } = useLoading();
+  const { isLoadingBar, startLoading, stopLoading } = useLoading();
 
-  // TODO : loading 페이지 찾아보기
+  const pathname = usePathname();
+  const [isHome, setIsHome] = useState(true);
+
+  useEffect(() => {
+    setIsHome(pathname === '/');
+    if (pathname === '/') {
+      stopLoading();
+    }
+  }, [startLoading]);
 
   return (
     <header className="flex w-full items-center justify-between border-b p-5">
-      {isLoading && <Loading text="페이지 이동 중..." />}
       <div className="ml-[10%]">
-        <Link href="/" className="text-xl font-semibold" onClick={handleClick}>
+        {isLoadingBar && <Loading />}
+
+        <Link href="/" className="text-xl font-semibold" onClick={isHome ? '' : startLoading}>
           <span className="hover:text-hover font-bold">나니 블로그</span>
         </Link>
       </div>
 
-      <nav className="relative mr-[10%] flex items-center gap-4">
+      <nav className="relative mr-[5%] flex items-center gap-4 sm:mr-[10%]">
         <aside className="menubar flex items-center gap-2.5">
           <div className="cursor-pointer md:hidden" onClick={handledropDown}>
             {isClick ? '✖' : <TiThMenuOutline className="h-[28px] w-[28px]" />}
@@ -42,7 +52,7 @@ const Header = () => {
               </div>
             )}
             <DarkModeBtn />
-            <Link href="/blog/write" onClick={handleClick} className="hover:text-hover font-bold">
+            <Link href="/blog/write" onClick={startLoading} className="hover:text-hover font-bold">
               글쓰기
             </Link>
           </div>
