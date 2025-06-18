@@ -8,8 +8,8 @@ import { LuLayoutGrid } from 'react-icons/lu';
 import { TbLayoutList } from 'react-icons/tb';
 import { useLayout } from '@/hooks/layout';
 import { cn } from '@/lib/utils';
-import GridCard from '../(view)/GridCard';
-import FlexCard from '../(view)/FlexCard';
+import GridCard from '../(blogView)/GridCard';
+import FlexCard from '../(blogView)/FlexCard';
 
 interface PostListProps {
   posts: PostProps[];

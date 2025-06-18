@@ -14,7 +14,7 @@ export async function GET(request: Request) {
       startCursor,
       pageSize: pageSizeNum,
     });
-    console.log('dfsda', result);
+
     return new Response(JSON.stringify(result), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },

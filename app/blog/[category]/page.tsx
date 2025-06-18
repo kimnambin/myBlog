@@ -3,13 +3,12 @@
 import { useParams } from 'next/navigation';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import Side from '@/app/components/layouts/(core)/Side';
 import Loading from '@/app/components/layouts/(loading)/loading';
 import { useEffect, useState } from 'react';
 import { CategoryProps } from '@/types/blog/blogPost';
 import NoContent from '@/app/components/layouts/(etc)/NoContent';
-import FlexCard from '@/app/components/layouts/(view)/FlexCard';
-import GridCard from '@/app/components/layouts/(view)/GridCard';
+import GridCard from '@/app/components/layouts/(blogView)/GridCard';
+import Side from '@/app/components/layouts/(core)/Side';
 
 export default function CategoryList() {
   const { category } = useParams() as { category: string };
@@ -45,8 +44,6 @@ export default function CategoryList() {
     getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
   });
 
-  // console.log('카테고리 페이지임', data);
-
   const categoryCnt = data?.pages[0].posts.length;
 
   return (
@@ -81,13 +78,13 @@ export default function CategoryList() {
               </InfiniteScroll>
             )}
 
-            {isFetchingNextPage && <Loading text="게시글 불러오는 중..." />}
+            {isFetchingNextPage && <Loading />}
           </div>
         </div>
 
         <div className="hidden-side ml-auto hidden h-full flex-col items-center gap-4 sm:flex">
           <div className="flex h-full flex-col justify-between">
-            <Side />
+            <Side side={false} />
           </div>
         </div>
       </div>

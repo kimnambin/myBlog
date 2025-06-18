@@ -17,7 +17,7 @@ const FlexCard = ({ data }: { data: PostProps }) => {
         prefetch
         onClick={startLoading}
       >
-        <div className="mt-5 flex flex-row items-start justify-between gap-4 border-b">
+        <div className="my-5 flex flex-row items-start justify-between gap-4 border-b">
           <main className="flex h-full w-2/3 flex-col justify-between gap-1">
             <h1 className="overflow-hidden text-xs font-bold text-ellipsis whitespace-nowrap sm:text-lg">
               {data?.title.slice(0, 16)}

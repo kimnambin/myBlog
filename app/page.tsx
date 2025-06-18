@@ -1,7 +1,7 @@
 import { getCategorysDetail, getPostsByCategory } from '../lib/notion';
 import { Metadata } from 'next';
 import PostList from './components/layouts/(core)/PostList';
-import Side from './components/layouts/(core)/Side';
+import SmallSide from './components/layouts/(side)/BroswerSide';
 
 export const metadata: Metadata = {
   title: 'Nani Blog',
@@ -29,7 +29,7 @@ const Home = async () => {
         </div>
         <div className="hidden-side ml-auto hidden h-full flex-col items-center gap-4 sm:flex">
           <div className="flex h-full flex-col justify-between">
-            <Side />
+            <SmallSide />
           </div>
         </div>
       </div>

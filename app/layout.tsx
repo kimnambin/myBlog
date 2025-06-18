@@ -2,7 +2,6 @@ import '../styles/globals.css';
 import { Metadata } from 'next';
 import { Providers } from './providers';
 import Header from './components/layouts/(core)/Header';
-import Footer from './components/layouts/(core)/Footer';
 
 export const metadata: Metadata = {
   title: {
@@ -28,11 +27,9 @@ export const metadata: Metadata = {
   },
 };
 
-//TODO : 하이브레이션? 오류 해결해야 함...
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+    <html lang="en" className="scroll-smooth" suppressHydrationWarning={true}>
       <head>
         <meta name="description" content="나니의 블로그입니닷" />
         <link rel="icon" href="/img/main.jpg" />
@@ -40,10 +37,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <Providers>
           <Header />
-          <main className="relative mx-auto flex min-h-screen w-[80%] flex-col items-center justify-start">
+          <main className="headerGap relative mx-auto flex min-h-screen w-[80%] flex-col items-center justify-start">
             {children}
           </main>
-          <Footer />
         </Providers>
       </body>
     </html>

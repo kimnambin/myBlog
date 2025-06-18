@@ -1,11 +1,13 @@
 'use client';
 
+import { CategoryResponse, PostProps } from '@/types/blog/blogPost';
+import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
+
+// TODO : 서치 시 화면 전환되어도 드롭 메뉴와 로딩화면이 없어지지 않음 ㅠㅠ
 
 export const useSideFn = () => {
   const [isClick, setIsClick] = useState<boolean>(false);
-  const [search, setSearch] = useState<string>('');
-  const [searchResults, setSearchResults] = useState([]);
 
   useEffect(() => {
     const outSideClick = (e: MouseEvent) => {
@@ -25,26 +27,55 @@ export const useSideFn = () => {
     setIsClick(!isClick);
   };
 
-  // const changeSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const result = e.target.value;
-  //   setSearch(result);
+  const { data: categoryData, isLoading: queryLoading } = useQuery<CategoryResponse>({
+    queryKey: ['getCategory'],
+    queryFn: async () => {
+      const res = await fetch('/api/blog/getCategory');
+      if (!res.ok) {
+        throw new Error('데이터를 가져오는 중 오류 발생');
+      }
 
-  //   console.log('dsadas', result);
+      return res.json();
+    },
+  });
 
-  //   if (result) {
-  //     const res = await fetch(`/api/blog/`);
-  //     const data = await res.json();
-  //     setSearchResults(data.result);
-  //   } else {
-  //     setSearchResults([]);
-  //   }
+  const { data: searchData, isLoading: searchLoading } = useQuery({
+    queryKey: ['searchData'],
+    queryFn: async () => {
+      const res = await fetch('/api/blog');
+      if (!res.ok) {
+        throw new Error('데이터를 가져오는 중 오류 발생');
+      }
 
-  //   setSearch('');
-  // };
+      return res.json();
+    },
+  });
+
+  const [searchResults, setSearchResults] = useState([]);
+  const [search, setSearch] = useState('');
+
+  const changeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const result = e.target.value;
+    setSearch(result);
+
+    if (result && searchData) {
+      const filteredResults = searchData.posts.filter((post: PostProps) =>
+        post.title.toLowerCase().includes(result.toLowerCase())
+      );
+      setSearchResults(filteredResults);
+    } else {
+      setSearchResults([]);
+    }
+  };
 
   return {
     isClick,
     handledropDown,
-    // search, changeSearch, searchResults
+    search,
+    changeSearch,
+    searchLoading,
+    searchResults,
+    queryLoading,
+    categoryData,
   };
 };

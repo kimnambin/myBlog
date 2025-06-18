@@ -6,7 +6,7 @@ export interface PostListProps {
 export interface PostProps {
   id?: string;
   title: string;
-  category?: string[];
+  category: string[];
   coverImage?: string;
   post_id?: string;
   likes?: string[];
