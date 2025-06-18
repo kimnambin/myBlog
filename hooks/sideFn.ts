@@ -4,8 +4,6 @@ import { CategoryResponse, PostProps } from '@/types/blog/blogPost';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 
-// TODO : 서치 시 화면 전환되어도 드롭 메뉴와 로딩화면이 없어지지 않음 ㅠㅠ
-
 export const useSideFn = () => {
   const [isClick, setIsClick] = useState<boolean>(false);
 

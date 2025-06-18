@@ -41,7 +41,7 @@ export default function PostList({ posts, initialCursor, hasMore, totalPosting }
     <>
       <div className="mt-2.5 mb-6.5 flex w-full justify-between text-xl font-bold">
         <span className="ml-[5%] text-sm sm:ml-0 sm:text-lg">
-          『전체』게시글 :<span className="ml-2 text-[#ef402f]">{totalPosting}개</span>
+          전체<span className="ml-2 text-[#ef402f]">{totalPosting}개</span>
         </span>
         <aside className="align-center ml-12 flex items-center gap-2">
           <LuLayoutGrid

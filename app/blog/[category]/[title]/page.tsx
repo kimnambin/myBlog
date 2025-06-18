@@ -84,8 +84,8 @@ const BlogPost = async ({ params }: { params: { category: string; title: string 
   });
 
   return (
-    <div className="mobileContent mt-3 flex gap-4.5 border-b p-5">
-      <div className="prose prose-neutral dark:prose-invert prose-headings:scroll-mt-[var(--header-height)] mx-auto w-full max-w-[100%] flex-1">
+    <div className="mobileContent mt-3 flex w-[100%] gap-4.5 border-b p-5">
+      <div className="prose prose-neutral prose-headings:scroll-mt-[var(--header-height)] mx-auto grid w-full min-w-[80%]">
         <span className="align-center flex gap-2.5">
           {post?.category?.map((v) => (
             <p
@@ -99,7 +99,7 @@ const BlogPost = async ({ params }: { params: { category: string; title: string 
         </span>
         <h1 className="font-blod">{post?.title}</h1>
         <span className="align-center mt-[-20px] mb-9 flex items-center gap-2.5">
-          <BsCalendarDate style={{ verticalAlign: 'middle' }} />
+          <BsCalendarDate className="align-middle" />
           {post?.createdTime.slice(0, 10)}
         </span>
         <ShowPosting source={mdxSource} />
@@ -107,7 +107,7 @@ const BlogPost = async ({ params }: { params: { category: string; title: string 
 
       <div className="flex w-52"></div>
 
-      <nav className="TableOfContentsLink dark:prose-invert bg-muted/60 fixed top-[var(--header-height)] right-[9%] flex h-[calc(100vh-var(--header-height))] w-64 flex-col gap-2 overflow-y-auto p-5">
+      <nav className="TableOfContentsLink bg-muted/60 fixed top-[var(--header-height)] right-[11%] flex h-[calc(100vh-var(--header-height))] w-48 flex-col gap-2 overflow-y-auto p-5">
         <p className="cursor-pointer text-lg font-semibold">목차</p>
         <TableOfContents toc={data?.toc ?? []} />
       </nav>
