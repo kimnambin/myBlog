@@ -24,22 +24,25 @@ const BrowerSide = () => {
           onChange={changeSearch}
           value={search}
         />
+
         <ul>
-          {searchLoading && <Loading />}
-          {searchResults.map((post: PostProps) => (
-            <Link
-              href={`/blog/${post.category[0]}/${decodeURIComponent(post.title)}`}
-              onClick={() => {
-                startLoading();
-              }}
-              key={post.title}
-            >
-              <li key={post.title} className="border-2 border-gray-200">
-                {post.title.length > 10 ? `${post.title.slice(0, 11)}...` : post.title}
-              </li>
-            </Link>
-          ))}
+          {isLoadingBar ? (
+            <Loading />
+          ) : (
+            searchResults.map((post: PostProps) => (
+              <Link
+                href={`/blog/${post.category[0]}/${decodeURIComponent(post.title)}`}
+                onClick={startLoading}
+                key={post.id}
+              >
+                <li className="border-2 border-gray-200">
+                  {post.title.length > 10 ? `${post.title.slice(0, 11)}...` : post.title}
+                </li>
+              </Link>
+            ))
+          )}
         </ul>
+
         <br />
         <h2 className="mb-2 font-bold">📌카테고리 검색</h2>
 
