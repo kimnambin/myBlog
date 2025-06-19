@@ -12,7 +12,7 @@ import TableOfContents from '../../../components/layouts/(detatilBlog)/TableCont
 import { BgColor } from '@/app/components/model/category';
 import { BsCalendarDate } from 'react-icons/bs';
 
-// TODO : 블로그 내용에 따라 위치가 달라짐...
+// TODO : 공유하기 버튼도 만들기!!
 
 export async function generateMetadata({
   params,

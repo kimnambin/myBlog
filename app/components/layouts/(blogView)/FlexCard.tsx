@@ -9,6 +9,7 @@ import { BgColor } from '../../model/category';
 
 const FlexCard = ({ data }: { data: PostProps }) => {
   const { isLoadingBar, startLoading } = useLoading();
+
   return (
     <>
       {isLoadingBar && <Loading />}

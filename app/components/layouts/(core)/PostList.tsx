@@ -11,7 +11,7 @@ import { cn } from '@/lib/utils';
 import GridCard from '../(blogView)/GridCard';
 import FlexCard from '../(blogView)/FlexCard';
 
-interface PostListProps {
+export interface PostListProps {
   posts: PostProps[];
   initialCursor: string | null;
   hasMore: boolean;
