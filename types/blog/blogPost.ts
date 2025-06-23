@@ -40,3 +40,7 @@ export interface PostFormState {
   success?: boolean;
   redirect?: boolean;
 }
+
+export interface ParameterProps {
+  category?: string;
+}

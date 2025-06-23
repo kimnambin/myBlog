@@ -1,8 +1,7 @@
 import React from 'react';
-import { createPortal } from 'react-dom';
 import '../../../../styles/animation.css';
 
-// TODO : 로딩화면 디자인 다른거 찾아보기
+// TODO : 로딩화면 디자인 다른거 찾아보기 + fixed 제거하고 해당하는 부분에 두는 게 좋을 듯용
 
 const Loading = () => {
   return (

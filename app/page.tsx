@@ -1,7 +1,5 @@
-import { getCategorysDetail, getPostsByCategory } from '../lib/notion';
 import { Metadata } from 'next';
-import PostList from './components/layouts/(core)/PostList';
-import SmallSide from './components/layouts/(side)/BroswerSide';
+import Main from './components/layouts/(core)/Main';
 
 export const metadata: Metadata = {
   title: 'Nani Blog',
@@ -12,29 +10,7 @@ export const metadata: Metadata = {
 };
 
 const Home = async () => {
-  const { posts, hasMore, nextCursor } = await getPostsByCategory();
-  const categorys = await getCategorysDetail();
-  const totalPosting = categorys[0].count;
-
-  return (
-    <main className="z-50 mt-[30px] mb-6.5 flex w-full">
-      <div className="container mx-auto flex w-full sm:px-4">
-        <div className="flex flex-[3] flex-col">
-          <PostList
-            posts={posts}
-            initialCursor={nextCursor}
-            hasMore={hasMore}
-            totalPosting={totalPosting}
-          />
-        </div>
-        <div className="hidden-side ml-auto hidden h-full flex-col items-center gap-4 sm:flex">
-          <div className="flex h-full flex-col justify-between">
-            <SmallSide />
-          </div>
-        </div>
-      </div>
-    </main>
-  );
+  return <Main />;
 };
 
 export default Home;

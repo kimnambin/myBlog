@@ -1,6 +1,6 @@
 'use client';
 
-import { PostProps } from '../../../../types/blog/blogPost';
+import { CategoryProps, PostProps } from '../../../../types/blog/blogPost';
 import Link from 'next/link';
 import { BgColor } from '../../model/category';
 import { useLoading } from '../../../../hooks/loading';
@@ -9,7 +9,7 @@ import { useSideFn } from '@/hooks/sideFn';
 
 const BrowerSide = () => {
   const { isLoadingBar, startLoading } = useLoading();
-  const { search, changeSearch, searchLoading, searchResults, queryLoading, categoryData } =
+  const { search, changeSearch, searchLoading, searchResults, queryLoading, getcategoryList } =
     useSideFn();
 
   return (
@@ -51,7 +51,7 @@ const BrowerSide = () => {
           <Loading />
         ) : (
           <div className="grid grid-cols-[repeat(2,_1fr)] gap-1.5">
-            {categoryData?.categorys?.slice(1).map((v) => (
+            {getcategoryList?.categorys?.slice(1).map((v: CategoryProps) => (
               <Link href={`/blog/${v.name}/`} key={v.id} onClick={startLoading}>
                 <p
                   className="mb-1.5 rounded-2xl text-center font-bold text-white transition-transform duration-500 hover:scale-105"

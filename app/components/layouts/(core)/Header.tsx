@@ -40,7 +40,7 @@ const Header = () => {
           <span className="hover:text-hover font-bold">나니 블로그</span>
         </Link>
       </div>
-
+      {/* TODO : 메뉴바 나오는 거 수정해야 할 듯 좀더 큰 화면에서 나오도록 */}
       <nav className="relative mr-[5%] flex items-center gap-4 sm:mr-[10%]">
         <aside className="menubar flex items-center gap-2.5">
           <div className="hidden items-center gap-2.5 md:flex">

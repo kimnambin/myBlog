@@ -1,10 +1,10 @@
 'use client';
 
-import { CategoryResponse, PostProps } from '@/types/blog/blogPost';
+import { PostProps } from '@/types/blog/blogPost';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 
-export const useSideFn = () => {
+export const useSideFn = (category?: string) => {
   const [isClick, setIsClick] = useState<boolean>(false);
 
   useEffect(() => {
@@ -25,10 +25,10 @@ export const useSideFn = () => {
     setIsClick(!isClick);
   };
 
-  const { data: categoryData, isLoading: queryLoading } = useQuery<CategoryResponse>({
-    queryKey: ['getCategory'],
+  const { data: searchData, isLoading: searchLoading } = useQuery({
+    queryKey: ['searchData'],
     queryFn: async () => {
-      const res = await fetch('/api/blog/getCategory');
+      const res = await fetch('/api/blog');
       if (!res.ok) {
         throw new Error('데이터를 가져오는 중 오류 발생');
       }
@@ -37,13 +37,11 @@ export const useSideFn = () => {
     },
   });
 
-  const { data: searchData, isLoading: searchLoading } = useQuery({
-    queryKey: ['searchData'],
+  const { data: getcategoryList, isLoading: queryLoading } = useQuery({
+    queryKey: ['getCategory'],
     queryFn: async () => {
-      const res = await fetch('/api/blog');
-      if (!res.ok) {
-        throw new Error('데이터를 가져오는 중 오류 발생');
-      }
+      const res = await fetch(`/api/blog/getCategory`);
+      if (!res.ok) throw new Error('데이터를 가져오는 중 오류 발생');
 
       return res.json();
     },
@@ -73,7 +71,7 @@ export const useSideFn = () => {
     changeSearch,
     searchLoading,
     searchResults,
+    getcategoryList,
     queryLoading,
-    categoryData,
   };
 };
