@@ -4,10 +4,9 @@ import React from 'react';
 
 const Title = ({ category }: { category: string }) => {
   const { queryLoading, getcategoryList } = useSideFn();
-  console.log('getcategoryList', getcategoryList.categorys[0].name);
 
   const categoryData =
-    category !== ''
+    category !== undefined
       ? getcategoryList.categorys.find((v: CategoryProps) => v.name === category)
       : '';
 

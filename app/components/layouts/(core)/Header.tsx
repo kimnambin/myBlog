@@ -29,7 +29,7 @@ const Header = () => {
 
   return (
     <header className="fixed z-3000 flex w-full items-center justify-between border-b bg-white p-5">
-      <div className="ml-[10%]">
+      <div className="ml-[10%] flex w-[80%] items-center">
         {isLoadingBar && <Loading />}
 
         <Link
@@ -39,32 +39,27 @@ const Header = () => {
         >
           <span className="hover:text-hover font-bold">나니 블로그</span>
         </Link>
+        <span className="hidden-side mr-[10%] ml-auto flex items-center gap-4">
+          <a
+            className="hover:text-hover ml-3 text-gray-500"
+            href="https://github.com/kimnambin"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <BiLogoGithub className="h-8 w-8" />
+          </a>
+          <a
+            className="hover:text-hover ml-3 text-gray-500"
+            href="mailto:helloword@na.com?subject=제목입니다!"
+          >
+            <AiOutlineMail className="h-8 w-8" />
+          </a>
+        </span>
       </div>
-      {/* TODO : 메뉴바 나오는 거 수정해야 할 듯 좀더 큰 화면에서 나오도록 */}
+
       <nav className="relative mr-[5%] flex items-center gap-4 sm:mr-[10%]">
-        <aside className="menubar flex items-center gap-2.5">
-          <div className="hidden items-center gap-2.5 md:flex">
-            {/* <Link href="/blog/write" onClick={startLoading} className="hover:text-hover font-bold">
-              글쓰기
-            </Link> */}
-            <span className="mr-[10%] ml-auto flex items-center gap-4">
-              <a
-                className="hover:text-hover ml-3 text-gray-500"
-                href="https://github.com/kimnambin"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <BiLogoGithub className="h-8 w-8" />
-              </a>
-              <a
-                className="hover:text-hover ml-3 text-gray-500"
-                href="mailto:helloword@na.com?subject=제목입니다!"
-              >
-                <AiOutlineMail className="h-8 w-8" />
-              </a>
-            </span>
-          </div>
-          <div className="cursor-pointer md:hidden" onClick={handledropDown}>
+        <aside className="flex items-center gap-2.5">
+          <div className="cursor-pointer" onClick={handledropDown}>
             {isClick ? '✖' : <TiThMenuOutline className="h-[28px] w-[28px]" />}
           </div>
           {isClick && (
