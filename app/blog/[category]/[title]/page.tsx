@@ -11,6 +11,7 @@ import ShowPosting from '../../../components/layouts/(detatilBlog)/ShowPosting';
 import TableOfContents from '../../../components/layouts/(detatilBlog)/TableContent';
 import { BgColor } from '@/app/components/model/category';
 import { BsCalendarDate } from 'react-icons/bs';
+import ShareModal from '@/app/components/layouts/(etc)/ShareModal';
 
 // TODO : 공유하기 버튼도 만들기!!
 
@@ -84,7 +85,7 @@ const BlogPost = async ({ params }: { params: { category: string; title: string 
   });
 
   return (
-    <div className="mobileContent mt-3 flex w-[100%] gap-4.5 border-b p-5">
+    <div className="mobileContent mt-3 flex w-full gap-4.5 border-b p-3">
       <div className="prose prose-neutral prose-headings:scroll-mt-[var(--header-height)] mx-auto grid w-full min-w-[80%]">
         <span className="align-center flex gap-2.5">
           {post?.category?.map((v) => (
@@ -97,10 +98,13 @@ const BlogPost = async ({ params }: { params: { category: string; title: string 
             </p>
           ))}
         </span>
-        <h1 className="font-blod">{post?.title}</h1>
-        <span className="align-center mt-[-20px] mb-9 flex items-center gap-2.5">
-          <BsCalendarDate className="align-middle" />
-          {post?.createdTime.slice(0, 10)}
+        <h1 className="font-blod gap-2.5">{post?.title}</h1>
+        <span className="mt-[-20px] mb-9 flex items-center gap-2.5">
+          <BsCalendarDate className="h-6 w-6" />
+          <p className="text-[0.75rem] font-bold sm:text-[1rem]">
+            {post?.createdTime.slice(0, 10)}
+          </p>
+          <ShareModal />
         </span>
         <ShowPosting source={mdxSource} />
       </div>

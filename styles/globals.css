@@ -2,8 +2,6 @@
 @import 'tw-animate-css';
 @plugin "@tailwindcss/typography";
 
-@custom-variant dark (&:is(.dark *));
-
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -140,6 +138,19 @@
 
 .bigSideWidth.open {
   height: 100vh;
+}
+
+.shareIcons {
+  width: 24px;
+  height: 24px;
+}
+
+.shareContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  gap: 2.5px;
 }
 
 .c {

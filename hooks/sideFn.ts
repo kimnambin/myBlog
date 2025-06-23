@@ -9,7 +9,11 @@ export const useSideFn = (category?: string) => {
 
   useEffect(() => {
     const outSideClick = (e: MouseEvent) => {
-      if (isClick && !(e.target as HTMLElement).closest('.side-container')) {
+      const target = e.target as HTMLElement;
+      const isOutside =
+        isClick && !target.closest('.side-container') && !target.closest('.shareModal');
+
+      if (isOutside) {
         setIsClick(false);
       }
     };

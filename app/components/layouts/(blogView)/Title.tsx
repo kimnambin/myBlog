@@ -6,9 +6,9 @@ const Title = ({ category }: { category: string }) => {
   const { queryLoading, getcategoryList } = useSideFn();
 
   const categoryData =
-    category !== undefined
+    category.length > 0
       ? getcategoryList.categorys.find((v: CategoryProps) => v.name === category)
-      : '';
+      : null;
 
   return (
     <span className="ml-[5%] text-sm sm:ml-0 sm:text-lg">
