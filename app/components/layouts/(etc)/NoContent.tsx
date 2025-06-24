@@ -6,7 +6,7 @@ const NoContent = () => {
   return (
     <div className="my-8 flex flex-col items-center justify-center gap-4">
       <Image
-        src={'/img/noposts.png'}
+        src={'/img/noposts.webp'}
         width={500}
         height={500}
         className="rounded-lg"

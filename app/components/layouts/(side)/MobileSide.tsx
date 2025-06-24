@@ -4,7 +4,7 @@ import { CategoryProps, PostProps } from '../../../../types/blog/blogPost';
 import Link from 'next/link';
 import { BgColor } from '../../model/category';
 import { useLoading } from '../../../../hooks/loading';
-import Loading from '../(loading)/loading';
+import Loadingbar from '../(loading)/loading';
 import { useSideFn } from '@/hooks/sideFn';
 
 const MobileSide = () => {
@@ -25,11 +25,11 @@ const MobileSide = () => {
         />
         <ul>
           {isLoadingBar ? (
-            <Loading />
+            <Loadingbar />
           ) : (
             searchResults.map((post: PostProps) => (
               <Link
-                href={`/blog/${post.category[0]}/${decodeURIComponent(post.title)}`}
+                href={`/blog/${encodeURIComponent(post.category[0])}/${decodeURIComponent(post.title)}`}
                 onClick={startLoading}
                 key={post.id}
               >
@@ -43,13 +43,13 @@ const MobileSide = () => {
 
         <br />
         <h2 className="mb-2 font-bold">📌카테고리 검색</h2>
-        {queryLoading && <Loading />}
+        {queryLoading && <Loadingbar />}
         {isLoadingBar ? (
-          <Loading />
+          <Loadingbar />
         ) : (
           <div className="grid grid-cols-[repeat(2,_1fr)] gap-1.5">
             {getcategoryList?.categorys?.slice(1).map((v: CategoryProps) => (
-              <Link href={`/blog/${v.name}/`} key={v.id} onClick={startLoading}>
+              <Link href={`/blog/${encodeURIComponent(v.name)}/`} key={v.id} onClick={startLoading}>
                 <p
                   className="mb-1.5 flex h-[40px] items-center justify-center rounded-2xl text-center font-bold text-white transition-transform duration-500 hover:scale-105"
                   style={{ backgroundColor: BgColor[v.name] || '#0264fb' }}

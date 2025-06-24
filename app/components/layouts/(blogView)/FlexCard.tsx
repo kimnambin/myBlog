@@ -3,7 +3,7 @@ import Link from 'next/link';
 import React from 'react';
 import Image from 'next/legacy/image';
 import { useLoading } from '@/hooks/loading';
-import Loading from '../(loading)/loading';
+import Loadingbar from '../(loading)/loading';
 import { BsCalendarDate } from 'react-icons/bs';
 import { BgColor } from '../../model/category';
 
@@ -12,9 +12,9 @@ const FlexCard = ({ data }: { data: PostProps }) => {
 
   return (
     <>
-      {isLoadingBar && <Loading />}
+      {isLoadingBar && <Loadingbar />}
       <Link
-        href={`/blog/${data.category?.slice(0, 1)}/${data.title}`}
+        href={`/blog/${data.category?.slice(0, 1)}/${encodeURIComponent(data.title)}`}
         prefetch
         onClick={startLoading}
       >
@@ -42,7 +42,7 @@ const FlexCard = ({ data }: { data: PostProps }) => {
 
           <div className="relative h-24 w-24 flex-shrink-0 sm:h-32 sm:w-32">
             <Image
-              src={data.coverImage || '/img/main.jpg'}
+              src={data.coverImage || '/img/main.webp'}
               layout="fill"
               className="rounded-lg object-cover"
               alt="main img"

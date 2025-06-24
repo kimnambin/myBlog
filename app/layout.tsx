@@ -2,6 +2,7 @@ import '../styles/globals.css';
 import { Metadata } from 'next';
 import { Providers } from './providers';
 import Header from './components/layouts/(core)/Header';
+import { useRouter } from 'next/router';
 
 export const metadata: Metadata = {
   title: {
@@ -32,10 +33,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className="scroll-smooth" suppressHydrationWarning={true}>
       <head>
         <meta name="description" content="나니의 블로그입니닷" />
-        <link rel="icon" href="/img/main.jpg" />
+        <link rel="icon" href="/img/main.webP" />
       </head>
       <body>
         <Providers>
+          {/* <useLoading /> */}
           <Header />
           <main className="headerGap relative mx-auto flex min-h-screen w-[80%] flex-col items-center justify-start">
             {children}

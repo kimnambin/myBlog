@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { GetServerSideProps } from 'next';
 import { getCategorysDetail } from '../../../../lib/notion';
-import Loading from '../(loading)/loading';
+import Loadingbar from '../(loading)/loading';
 import Side from './Side';
 import { useSideFn } from '@/hooks/sideFn';
 import { useLoading } from '@/hooks/loading';
@@ -30,7 +30,7 @@ const Header = () => {
   return (
     <header className="fixed z-3000 flex w-full items-center justify-between border-b bg-white p-5">
       <div className="ml-[10%] flex w-[80%] items-center">
-        {isLoadingBar && <Loading />}
+        {isLoadingBar && <Loadingbar />}
 
         <Link
           href="/"
