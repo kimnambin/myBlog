@@ -50,7 +50,7 @@ const Header = () => {
           </a>
           <a
             className="hover:text-hover ml-3 text-gray-500"
-            href="mailto:helloword@na.com?subject=제목입니다!"
+            href="mailto:mkkim044@gmail.com?subject=제목입니다!"
           >
             <AiOutlineMail className="h-8 w-8" />
           </a>
@@ -74,13 +74,3 @@ const Header = () => {
 };
 
 export default Header;
-
-// 빌드 타입에 호출
-export const getServerSideProps: GetServerSideProps = async () => {
-  const categorys = await getCategorysDetail();
-  return {
-    props: {
-      categorys,
-    },
-  };
-};

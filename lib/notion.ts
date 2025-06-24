@@ -3,7 +3,6 @@ import type { CategoryProps, PostProps } from '../types/blog/blogPost';
 import type { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 import { NotionToMarkdown } from 'notion-to-md';
 import { GetPostParams, GetPostResponse } from '../types/blog/blogPostsPagination';
-import { unstable_cache } from 'next/cache';
 
 export const notion = new Client({
   auth: process.env.NOTION_TOKEN,

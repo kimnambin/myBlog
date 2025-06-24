@@ -10,7 +10,7 @@ import { useShare } from '@/hooks/share';
 
 const ShareModal = () => {
   const { isClick, handledropDown } = useSideFn();
-  const { clipboard } = useShare();
+  const { clipboard, kakaoShare, xUrl } = useShare();
 
   return (
     <div className="relative flex items-center">
@@ -22,17 +22,26 @@ const ShareModal = () => {
         <div id="shareModal" className="ml-2 flex flex-col items-start bg-white">
           <button
             className="shareContainer hover:text-hover w-[140px] border"
-            onClick={(e) => clipboard()}
+            onClick={() => clipboard()}
           >
             <FiPaperclip className="shareIcons" />
             링크 복사하기
           </button>
-          <button className="shareContainer hover:text-hover w-[140px] border">
+          <button
+            className="shareContainer hover:text-hover w-[140px] border"
+            onClick={() => kakaoShare()}
+          >
             <RiKakaoTalkFill className="shareIcons" /> 카카오톡 공유
           </button>
-          <button className="shareContainer hover:text-hover w-[140px] border">
-            <AiOutlineMail className="shareIcons" /> 이메일 공유
-          </button>
+          <a
+            className="shareContainer hover:text-hover w-[140px] border no-underline"
+            href={xUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <AiOutlineMail className="shareIcons" />
+            이메일 공유
+          </a>
         </div>
       ) : (
         ''

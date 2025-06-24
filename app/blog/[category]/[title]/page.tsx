@@ -13,8 +13,6 @@ import { BgColor } from '@/app/components/model/category';
 import { BsCalendarDate } from 'react-icons/bs';
 import ShareModal from '@/app/components/layouts/(etc)/ShareModal';
 
-// TODO : 공유하기 버튼도 만들기!!
-
 export async function generateMetadata({
   params,
 }: {
