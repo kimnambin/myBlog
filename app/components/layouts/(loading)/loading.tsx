@@ -10,7 +10,7 @@ const Loadingbar = ({ isFixed }: isFixed) => {
     <div
       className={`${
         isFixed ? 'fixed' : 'absolute'
-      } top-0 left-0 z-[100] flex h-full w-full items-center justify-center bg-white/70 backdrop-blur-sm`}
+      } top-1/2 left-1/2 z-[100] flex h-full w-full -translate-x-1/2 -translate-y-1/2 transform items-center justify-center bg-white/70 backdrop-blur-sm`}
     >
       <div className="relative h-[120px] w-[120px] overflow-hidden rounded-lg">
         <Image

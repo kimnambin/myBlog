@@ -4,7 +4,7 @@ import { CategoryProps, PostProps } from '../../../../types/blog/blogPost';
 import Link from 'next/link';
 import { BgColor } from '../../model/category';
 import { useLoading } from '../../../../hooks/loading';
-import Loadingbar from '../(loading)/loading';
+import Loading from '../(loading)/loading';
 import { useSideFn } from '@/hooks/sideFn';
 
 const MobileSide = () => {
@@ -25,7 +25,7 @@ const MobileSide = () => {
         />
         <ul>
           {isLoadingBar ? (
-            <Loadingbar />
+            <Loading />
           ) : (
             searchResults.map((post: PostProps) => (
               <Link
@@ -43,9 +43,9 @@ const MobileSide = () => {
 
         <br />
         <h2 className="mb-2 font-bold">📌카테고리 검색</h2>
-        {queryLoading && <Loadingbar />}
+        {queryLoading && <Loading />}
         {isLoadingBar ? (
-          <Loadingbar />
+          <Loading />
         ) : (
           <div className="grid grid-cols-[repeat(2,_1fr)] gap-1.5">
             {getcategoryList?.categorys?.slice(1).map((v: CategoryProps) => (

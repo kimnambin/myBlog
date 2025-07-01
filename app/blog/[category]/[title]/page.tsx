@@ -12,6 +12,8 @@ import TableOfContents from '../../../components/layouts/(detatilBlog)/TableCont
 import { BgColor } from '@/app/components/model/category';
 import { BsCalendarDate } from 'react-icons/bs';
 import ShareModal from '@/app/components/layouts/(etc)/ShareModal';
+import PostingMenu from '@/app/components/layouts/(etc)/PostingMenu';
+
 
 export async function generateMetadata({
   params,
@@ -23,6 +25,8 @@ export async function generateMetadata({
   const decodedTitle = decodeURIComponent(title);
 
   const { post } = await getDetailPost(decodedTitle);
+
+
 
   if (!post) {
     return {
@@ -82,6 +86,9 @@ const BlogPost = async ({ params }: { params: { category: string; title: string 
     rehypePlugins: [withSlugs, rehypeSanitize, withToc, withTocExport],
   });
 
+
+
+
   return (
     <div className="mobileContent mt-3 flex w-full gap-4.5 border-b p-3">
       <div className="prose prose-neutral prose-headings:scroll-mt-[var(--header-height)] mx-auto grid w-full min-w-[80%]">
@@ -96,7 +103,7 @@ const BlogPost = async ({ params }: { params: { category: string; title: string 
             </p>
           ))}
         </span>
-        <h1 className="font-blod gap-2.5">{post?.title}</h1>
+          <h1 className="font-blod gap-2.5">{post?.title}</h1> 
         <span className="mt-[-20px] mb-9 flex items-center gap-2.5">
           <BsCalendarDate className="h-6 w-6" />
           <p className="text-[0.75rem] font-bold sm:text-[1rem]">
@@ -105,6 +112,7 @@ const BlogPost = async ({ params }: { params: { category: string; title: string 
           <ShareModal />
         </span>
         <ShowPosting source={mdxSource} />
+          {post?.id && <PostingMenu id={post.id} />}
       </div>
 
       <div className="flex w-52"></div>
@@ -124,7 +132,9 @@ const BlogPost = async ({ params }: { params: { category: string; title: string 
             <TableOfContents toc={data?.toc ?? []} />
           </nav>
         </details>
+        {post?.id && <PostingMenu id={post.id} />}
       </div>
+  
     </div>
   );
 };

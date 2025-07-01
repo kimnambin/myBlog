@@ -19,7 +19,7 @@ const ShareModal = () => {
         onClick={handledropDown}
       />
       {isClick ? (
-        <div id="shareModal" className="ml-2 flex flex-col items-start bg-white">
+        <div id="shareModal" className="ml-2 flex flex-col items-start border bg-white">
           <button
             className="shareContainer hover:text-hover w-[140px] border"
             onClick={() => clipboard()}

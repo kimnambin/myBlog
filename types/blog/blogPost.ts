@@ -8,9 +8,7 @@ export interface PostProps {
   title: string;
   category: string[];
   coverImage?: string;
-  post_id?: string;
-  likes?: string[];
-  img?: string[];
+  img?: string;
   createdTime: string;
 }
 

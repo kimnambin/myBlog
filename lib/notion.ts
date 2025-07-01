@@ -29,27 +29,23 @@ export const getAllPost = (page: PageObjectResponse): PostProps => {
     }
   };
 
+
   return {
     id: page.id,
     title: properties.title?.type === 'title' ? (properties.title.title[0]?.plain_text ?? '') : '',
-
-    post_id:
-      properties.post_id?.type === 'rich_text'
-        ? (properties.post_id.rich_text[0]?.plain_text ?? '')
-        : '',
 
     category:
       properties.category?.type === 'multi_select'
         ? properties.category.multi_select.map((tag) => tag.name)
         : [],
-
-    likes:
-      properties.likes?.type === 'rich_text'
-        ? properties.likes.rich_text.map((r) => r.plain_text)
-        : [],
-
-    img:
-      properties.img?.type === 'rich_text' ? properties.img.rich_text.map((r) => r.href ?? '') : [],
+ img:
+  properties.img?.type === 'files' && properties.img.files.length > 0
+    ? (
+        'file' in properties.img.files[0]
+          ? properties.img.files[0].file.url
+          : properties.img.files[0].external.url
+      )
+    : '',
 
     coverImage: getCoverImage(page.cover),
 

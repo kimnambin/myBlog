@@ -2,7 +2,6 @@ import '../styles/globals.css';
 import { Metadata } from 'next';
 import { Providers } from './providers';
 import Header from './components/layouts/(core)/Header';
-import { useRouter } from 'next/router';
 
 export const metadata: Metadata = {
   title: {

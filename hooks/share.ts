@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export const useShare = () => {
   const clipboard = async () => {
@@ -52,7 +52,13 @@ export const useShare = () => {
     });
   };
 
-  const xUrl = `https://twitter.com/intent/tweet?text=나니블로그&url=${encodeURIComponent(window.location.href)}`;
+  const [xUrl, setXUrl] = useState('');
+
+useEffect(() => {
+  setXUrl(`https://twitter.com/intent/tweet?text=나니블로그&url=${window.location.href}`);
+}, []);
+
+
 
   return { clipboard, kakaoShare, xUrl };
 };

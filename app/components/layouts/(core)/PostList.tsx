@@ -9,7 +9,6 @@ import { useLayout } from '@/hooks/layout';
 import { cn } from '@/lib/utils';
 import GridCard from '../(blogView)/GridCard';
 import FlexCard from '../(blogView)/FlexCard';
-import { useSideFn } from '@/hooks/sideFn';
 import Title from '../(blogView)/Title';
 
 export default function PostList({ category }: { category: string }) {
@@ -36,6 +35,7 @@ export default function PostList({ category }: { category: string }) {
   });
 
   const { basic, handleClick } = useLayout();
+
 
   return (
     <>
