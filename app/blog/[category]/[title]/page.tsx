@@ -13,6 +13,7 @@ import { BgColor } from '@/app/components/model/category';
 import { BsCalendarDate } from 'react-icons/bs';
 import ShareModal from '@/app/components/layouts/(etc)/ShareModal';
 import PostingMenu from '@/app/components/layouts/(etc)/PostingMenu';
+import ScrollBar from '@/app/components/layouts/(detatilBlog)/ScrollBar';
 
 
 export async function generateMetadata({
@@ -82,6 +83,8 @@ const BlogPost = async ({ params }: { params: { category: string; title: string 
     return notFound();
   }
 
+  
+
   const { data } = await compile(markdown, {
     rehypePlugins: [withSlugs, rehypeSanitize, withToc, withTocExport],
   });
@@ -91,6 +94,7 @@ const BlogPost = async ({ params }: { params: { category: string; title: string 
 
   return (
     <div className="mobileContent mt-3 flex w-full gap-4.5 border-b p-3">
+      <ScrollBar />
       <div className="prose prose-neutral prose-headings:scroll-mt-[var(--header-height)] mx-auto grid w-full min-w-[80%]">
         <span className="align-center flex gap-2.5">
           {post?.category?.map((v) => (

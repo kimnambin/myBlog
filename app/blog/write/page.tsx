@@ -1,5 +1,3 @@
-// TODO : 디자인 및 실제 기능 구현 예정
-
 import BlogUploadForm from '../../components/feat/write/BlogUploadForm';
 
 export default function WritePage() {
@@ -10,8 +8,8 @@ export default function WritePage() {
     <div className="container py-10">
       <BlogUploadForm />
         <a href={key} target="_blank" rel="noopener noreferrer">
-  외부 링크로 이동
-</a>
+          외부 링크로 이동
+        </a>
     </div>
   );
 }
