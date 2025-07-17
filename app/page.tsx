@@ -1,5 +1,7 @@
 import { Metadata } from 'next';
 import Main from './components/layouts/(core)/Main';
+import { Suspense } from 'react';
+import Loadingbar from './components/layouts/(loading)/loading';
 
 export const metadata: Metadata = {
   title: 'Nani Blog',
@@ -9,8 +11,15 @@ export const metadata: Metadata = {
   },
 };
 
-const Home = async () => {
-  return <Main />;
+ const Home = () => {
+  return (
+    <Suspense fallback={<Loadingbar />}>
+      <Main />
+    </Suspense>
+  );
 };
 
 export default Home;
+
+
+
