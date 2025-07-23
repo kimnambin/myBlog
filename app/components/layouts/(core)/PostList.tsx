@@ -2,7 +2,6 @@
 
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import Loadingbar from '../(loading)/loading';
 import { LuLayoutGrid } from 'react-icons/lu';
 import { TbLayoutList } from 'react-icons/tb';
 import { useLayout } from '@/hooks/layout';
@@ -52,9 +51,9 @@ export default function PostList({ category }: { category: string }) {
           />
         </aside>
       </div>
-      {isLoading ? (
-        <Loadingbar />
-      ) : (
+      {/* {isLoading ? (
+        'ddd'
+      ) : ( */}
         <InfiniteScroll
           dataLength={data?.pages.flatMap((page) => page.posts).length ?? 0}
           next={fetchNextPage}
@@ -81,7 +80,7 @@ export default function PostList({ category }: { category: string }) {
               </div>
             ))}
         </InfiniteScroll>
-      )}
+      {/* )} */}
     </>
   );
 }

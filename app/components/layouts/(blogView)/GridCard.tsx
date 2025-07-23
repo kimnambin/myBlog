@@ -3,14 +3,14 @@ import { PostProps } from '@/types/blog/blogPost';
 import Link from 'next/link';
 import React from 'react';
 import Image from 'next/legacy/image';
-import Loadingbar from '../(loading)/loading';
+
 
 const GridCard = ({ data }: { data: PostProps }) => {
   const { isLoadingBar, startLoading } = useLoading();
 
   return (
     <>
-      {isLoadingBar && <Loadingbar />}
+   
       <Link
         href={`/blog/${data.category?.slice(0, 1)}/${encodeURIComponent(data.title)}`}
         onClick={startLoading}

@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { GetServerSideProps } from 'next';
 import { getCategorysDetail } from '../../../../lib/notion';
-import Loadingbar from '../(loading)/loading';
 import Side from './Side';
 import { useSideFn } from '@/hooks/sideFn';
 import { useLoading } from '@/hooks/loading';
@@ -15,7 +14,7 @@ import { AiOutlineMail } from 'react-icons/ai';
 
 const Header = () => {
   const { isClick, handledropDown } = useSideFn();
-  const { isLoadingBar, startLoading, stopLoading } = useLoading();
+  const { startLoading, stopLoading } = useLoading();
 
   const pathname = usePathname();
   const [isHome, setIsHome] = useState<boolean>(true);
@@ -30,12 +29,11 @@ const Header = () => {
   return (
     <header className="fixed z-3000 flex w-full items-center justify-between border-b bg-white p-5">
       <div className="ml-[10%] flex w-[80%] items-center">
-        {isLoadingBar && <Loadingbar />}
+       
 
         <Link
           href="/"
           className="text-xl font-semibold"
-          onClick={() => (isHome ? '' : startLoading)}
         >
           <span className="hover:text-hover font-bold">나니 블로그</span>
         </Link>

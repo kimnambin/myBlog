@@ -3,7 +3,6 @@ import Link from 'next/link';
 import React from 'react';
 import Image from 'next/legacy/image';
 import { useLoading } from '@/hooks/loading';
-import Loadingbar from '../(loading)/loading';
 import { BsCalendarDate } from 'react-icons/bs';
 import { BgColor } from '../../model/category';
 
@@ -12,7 +11,7 @@ const FlexCard = ({ data }: { data: PostProps }) => {
 
   return (
     <>
-      {isLoadingBar && <Loadingbar />}
+      
       <Link
         href={`/blog/${data.category?.slice(0, 1)}/${encodeURIComponent(data.title)}`}
         prefetch

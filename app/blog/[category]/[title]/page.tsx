@@ -14,6 +14,8 @@ import { BsCalendarDate } from 'react-icons/bs';
 import ShareModal from '@/app/components/layouts/(etc)/ShareModal';
 import PostingMenu from '@/app/components/layouts/(etc)/PostingMenu';
 import ScrollBar from '@/app/components/layouts/(detatilBlog)/ScrollBar';
+import BlogPostSkeleton from '@/app/components/layouts/(loading)/skeletonUI';
+import ShowPostingWrapper from '@/app/components/layouts/(detatilBlog)/ShowPostingWrapper';
 
 
 export async function generateMetadata({
@@ -83,13 +85,10 @@ const BlogPost = async ({ params }: { params: { category: string; title: string 
     return notFound();
   }
 
-  
 
   const { data } = await compile(markdown, {
     rehypePlugins: [withSlugs, rehypeSanitize, withToc, withTocExport],
   });
-
-
 
 
   return (
@@ -115,7 +114,8 @@ const BlogPost = async ({ params }: { params: { category: string; title: string 
           </p>
           <ShareModal />
         </span>
-        <ShowPosting source={mdxSource} />
+        {/* <ShowPosting source={mdxSource} /> */}
+        <ShowPostingWrapper  source={mdxSource} />
           {post?.id && <PostingMenu id={post.id} />}
       </div>
 

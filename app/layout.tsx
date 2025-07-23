@@ -36,7 +36,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <Providers>
-          {/* <useLoading /> */}
           <Header />
           <main className="headerGap relative mx-auto flex min-h-screen w-[80%] flex-col items-center justify-start">
             {children}

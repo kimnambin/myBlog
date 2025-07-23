@@ -1,25 +1,14 @@
-import { Metadata } from 'next';
-import Main from './components/layouts/(core)/Main';
 import { Suspense } from 'react';
-import Loadingbar from './components/layouts/(loading)/loading';
+import Loadingbar from './loading';
+import dynamic from 'next/dynamic';
 
-export const metadata: Metadata = {
-  title: 'Nani Blog',
-  description: '배운 것을 잊지 않기 위해 기록하는 나니의 블로그입니다.',
-  alternates: {
-    canonical: '/',
-  },
-};
+const Main = dynamic(() => import('./components/layouts/(core)/Main'), {});
+console.log('Main component loaded dynamically');
 
- const Home = () => {
+export default function Home() {
   return (
     <Suspense fallback={<Loadingbar />}>
       <Main />
     </Suspense>
   );
-};
-
-export default Home;
-
-
-
+}
