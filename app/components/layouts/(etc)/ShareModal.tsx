@@ -13,13 +13,17 @@ const ShareModal = () => {
   const { clipboard, kakaoShare, xUrl } = useShare();
 
   return (
-    <div className="relative flex items-center">
+    <div className="flex items-center">
       <BiSolidShareAlt
         className={`shareIcons hover:text-hover mx-2 hover:scale-125 ${isClick ? 'hidden' : ''}`}
         onClick={handledropDown}
       />
+      {/* TODO : 여기 디자인 수정하기 */}
       {isClick ? (
-        <div id="shareModal" className="ml-2 flex flex-col items-start border bg-white">
+        <div
+          id="shareModal"
+          className="shareModalContainer ml-2 flex flex-row items-start border bg-white"
+        >
           <button
             className="shareContainer hover:text-hover w-[140px] border"
             onClick={() => clipboard()}

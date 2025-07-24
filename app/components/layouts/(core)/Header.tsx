@@ -28,16 +28,14 @@ const Header = () => {
 
   return (
     <header className="fixed z-3000 flex w-full items-center justify-between border-b bg-white p-5">
-      <div className="ml-[10%] flex w-[80%] items-center">
-       
-
-        <Link
-          href="/"
-          className="text-xl font-semibold"
-        >
-          <span className="hover:text-hover font-bold">나니 블로그</span>
+      <div className="flex sm:mx-[10%] items-center mx-[5%]">
+        <Link href="/" className="text-xl font-semibold">
+          <span className="hover:text-hover font-bold flex items-center gap-2">
+            <img src="/img/main.webP" className="w-6 h-6" />
+            나니 블로그
+          </span>
         </Link>
-        <span className="hidden-side mr-[10%] ml-auto flex items-center gap-4">
+        <span className="hidden-side flex items-center gap-4">
           <a
             className="hover:text-hover ml-3 text-gray-500"
             href="https://github.com/kimnambin"
@@ -47,7 +45,7 @@ const Header = () => {
             <BiLogoGithub className="h-8 w-8" />
           </a>
           <a
-            className="hover:text-hover ml-3 text-gray-500"
+            className="hover:text-hover text-gray-500"
             href="mailto:mkkim044@gmail.com?subject=제목입니다!"
           >
             <AiOutlineMail className="h-8 w-8" />

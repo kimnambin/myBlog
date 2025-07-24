@@ -5,30 +5,14 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
 
   images: {
-  remotePatterns: [
-    {
-      protocol: 'https',
-      hostname: 'www.notion.so',
-      pathname: '/**',
-    },
-    {
-      protocol: 'https',
-      hostname: 'images.unsplash.com',
-      pathname: '/**',
-    },
-    {
-      protocol: 'https',
-      hostname: 'img.notionusercontent.com',
-      pathname: '/**',
-    },
-    {
-      protocol: 'https',
-      hostname: 'prod-files-secure.s3.us-west-2.amazonaws.com',
-      pathname: '/**',
-    },
-  ],
-},
-
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+        pathname: '/**',
+      },
+    ],
+  },
 
   pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
 

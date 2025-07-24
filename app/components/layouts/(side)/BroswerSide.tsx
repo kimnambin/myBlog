@@ -4,7 +4,9 @@ import { CategoryProps, PostProps } from '../../../../types/blog/blogPost';
 import Link from 'next/link';
 import { BgColor } from '../../model/category';
 import { useLoading } from '../../../../hooks/loading';
+
 import { useSideFn } from '@/hooks/sideFn';
+import Loading from '@/app/loading';
 
 const BrowerSide = () => {
   const { isLoadingBar, startLoading } = useLoading();
@@ -25,8 +27,10 @@ const BrowerSide = () => {
         />
 
         <ul>
-           {/* TODO : 여기는 Loadingbar 넣어여 할 듯 */}
-      {searchResults.map((post: PostProps) => (
+          {isLoadingBar ? (
+            <Loading />
+          ) : (
+            searchResults.map((post: PostProps) => (
               <Link
                 href={`/blog/${post.category[0]}/${decodeURIComponent(post.title)}`}
                 onClick={startLoading}
@@ -37,13 +41,16 @@ const BrowerSide = () => {
                 </li>
               </Link>
             ))
-}
+          )}
         </ul>
 
         <br />
         <h2 className="mb-2 font-bold">📌카테고리 검색</h2>
 
-        
+        {queryLoading && <Loading />}
+        {isLoadingBar ? (
+          <Loading />
+        ) : (
           <div className="grid grid-cols-[repeat(2,_1fr)] gap-1.5">
             {getcategoryList?.categorys?.slice(1).map((v: CategoryProps) => (
               <Link href={`/blog/${encodeURIComponent(v.name)}/`} key={v.id} onClick={startLoading}>
@@ -56,7 +63,7 @@ const BrowerSide = () => {
               </Link>
             ))}
           </div>
-      
+        )}
       </div>
     </div>
   );

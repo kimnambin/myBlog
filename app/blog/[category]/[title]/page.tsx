@@ -7,16 +7,14 @@ import withSlugs from 'rehype-slug';
 import withToc from '@stefanprobst/rehype-extract-toc';
 import withTocExport from '@stefanprobst/rehype-extract-toc/mdx';
 import { serialize } from 'next-mdx-remote/serialize';
-import ShowPosting from '../../../components/layouts/(detatilBlog)/ShowPosting';
 import TableOfContents from '../../../components/layouts/(detatilBlog)/TableContent';
 import { BgColor } from '@/app/components/model/category';
 import { BsCalendarDate } from 'react-icons/bs';
 import ShareModal from '@/app/components/layouts/(etc)/ShareModal';
 import PostingMenu from '@/app/components/layouts/(etc)/PostingMenu';
 import ScrollBar from '@/app/components/layouts/(detatilBlog)/ScrollBar';
-import BlogPostSkeleton from '@/app/components/layouts/(loading)/skeletonUI';
 import ShowPostingWrapper from '@/app/components/layouts/(detatilBlog)/ShowPostingWrapper';
-
+import ScrollTop from '@/app/components/layouts/(side)/ScrollTop';
 
 export async function generateMetadata({
   params,
@@ -28,8 +26,6 @@ export async function generateMetadata({
   const decodedTitle = decodeURIComponent(title);
 
   const { post } = await getDetailPost(decodedTitle);
-
-
 
   if (!post) {
     return {
@@ -85,11 +81,9 @@ const BlogPost = async ({ params }: { params: { category: string; title: string 
     return notFound();
   }
 
-
   const { data } = await compile(markdown, {
     rehypePlugins: [withSlugs, rehypeSanitize, withToc, withTocExport],
   });
-
 
   return (
     <div className="mobileContent mt-3 flex w-full gap-4.5 border-b p-3">
@@ -106,7 +100,7 @@ const BlogPost = async ({ params }: { params: { category: string; title: string 
             </p>
           ))}
         </span>
-          <h1 className="font-blod gap-2.5">{post?.title}</h1> 
+        <h1 className="font-blod gap-2.5">{post?.title}</h1>
         <span className="mt-[-20px] mb-9 flex items-center gap-2.5">
           <BsCalendarDate className="h-6 w-6" />
           <p className="text-[0.75rem] font-bold sm:text-[1rem]">
@@ -114,9 +108,8 @@ const BlogPost = async ({ params }: { params: { category: string; title: string 
           </p>
           <ShareModal />
         </span>
-        {/* <ShowPosting source={mdxSource} /> */}
-        <ShowPostingWrapper  source={mdxSource} />
-          {post?.id && <PostingMenu id={post.id} />}
+        <ShowPostingWrapper source={mdxSource} />
+        {post?.id && <PostingMenu id={post.id} />}
       </div>
 
       <div className="flex w-52"></div>
@@ -138,7 +131,6 @@ const BlogPost = async ({ params }: { params: { category: string; title: string 
         </details>
         {post?.id && <PostingMenu id={post.id} />}
       </div>
-  
     </div>
   );
 };

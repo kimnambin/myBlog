@@ -9,7 +9,7 @@ const Main = ({ category }: ParameterProps) => {
   return (
     <main className="z-50 mt-[30px] mb-6.5 flex w-full">
       <div className="container mx-auto flex w-full sm:px-4">
-        <div className="flex flex-[3] flex-col">
+        <div className="flex flex-[3] flex-col ">
           <PostList category={decodeURIComponent(hascategory)} />
         </div>
         <div className="hidden-side ml-auto hidden h-full flex-col items-center gap-4 sm:flex">

@@ -145,6 +145,18 @@
   height: 24px;
 }
 
+.shareModalContainer {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
 .shareContainer {
   display: flex;
   flex-direction: row;
@@ -153,16 +165,20 @@
   gap: 2.5px;
 }
 
-
 @layer utilities {
   .skeleton {
     animation: shimmer 1.5s infinite linear;
-    background-image: linear-gradient(to right, #D9D9D9 0%, #EDEEF1 50%, #D9D9D9 100%);
+    background-image: linear-gradient(to right, #d9d9d9 0%, #edeef1 50%, #d9d9d9 100%);
     background-size: 300% 100%;
   }
 }
 
-
+.bottomRightFixed {
+  position: fixed;
+  bottom: 20px;
+  right: 60px;
+  z-index: 1000;
+}
 
 .c {
   position: relative;

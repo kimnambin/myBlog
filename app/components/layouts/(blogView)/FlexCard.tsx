@@ -11,13 +11,12 @@ const FlexCard = ({ data }: { data: PostProps }) => {
 
   return (
     <>
-      
       <Link
         href={`/blog/${data.category?.slice(0, 1)}/${encodeURIComponent(data.title)}`}
         prefetch
         onClick={startLoading}
       >
-        <div className="my-5 flex transform flex-row items-start justify-between gap-4 border-b">
+        <div className="m-3 flex transform flex-row items-start justify-between gap-4 border-b">
           <main className="flex h-full w-2/3 flex-col justify-between gap-1">
             <h1 className="overflow-hidden text-xs font-bold text-ellipsis whitespace-nowrap sm:text-lg">
               {data?.title.slice(0, 16)}

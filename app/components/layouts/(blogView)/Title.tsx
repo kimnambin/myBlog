@@ -13,11 +13,11 @@ const Title = ({ category }: { category: string }) => {
       : null;
 
   if (!categorys || categorys.length === 0 || queryLoading) {
-    return <span className="ml-[5%] text-sm sm:ml-0 sm:text-lg">로딩 중...</span>;
+    return <span className="ml-[5%] text-sm sm:ml-0 sm:text-lg">가져오는 중...</span>;
   }
 
   return (
-    <span className="ml-[5%] text-sm sm:ml-0 sm:text-lg">
+    <span className="text-sm sm:ml-0 sm:text-lg">
       {categoryData ? (
         <>
           {categoryData.name}
