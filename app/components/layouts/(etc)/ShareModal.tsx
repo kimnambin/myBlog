@@ -18,27 +18,24 @@ const ShareModal = () => {
         className={`shareIcons hover:text-hover mx-2 hover:scale-125 ${isClick ? 'hidden' : ''}`}
         onClick={handledropDown}
       />
-      {/* TODO : 여기 디자인 수정하기 */}
+
       {isClick ? (
         <div
           id="shareModal"
           className="shareModalContainer ml-2 flex flex-row items-start border bg-white"
         >
-          <button
-            className="shareContainer hover:text-hover w-[140px] border"
-            onClick={() => clipboard()}
-          >
+          <button className="shareContainer hover:text-hover w-[140px]" onClick={() => clipboard()}>
             <FiPaperclip className="shareIcons" />
             링크 복사하기
           </button>
           <button
-            className="shareContainer hover:text-hover w-[140px] border"
+            className="shareContainer hover:text-hover w-[140px] "
             onClick={() => kakaoShare()}
           >
             <RiKakaoTalkFill className="shareIcons" /> 카카오톡 공유
           </button>
           <a
-            className="shareContainer hover:text-hover w-[140px] border no-underline"
+            className="shareContainer hover:text-hover w-[140px]  no-underline"
             href={xUrl}
             target="_blank"
             rel="noopener noreferrer"

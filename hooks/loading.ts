@@ -1,7 +1,5 @@
 'use client';
 
-// TODO : 고도화해야함
-
 import { useState } from 'react';
 
 export const useLoading = () => {

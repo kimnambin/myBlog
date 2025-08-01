@@ -114,6 +114,7 @@ const BlogPost = async ({ params }: { params: { category: string; title: string 
 
       <div className="flex w-52"></div>
 
+      {/* TODO : 접고 펼치기로 수정하기 */}
       <nav className="TableOfContentsLink bg-muted/60 fixed top-[var(--header-height)] right-[11%] flex h-[calc(100vh-var(--header-height))] w-48 flex-col gap-2 overflow-y-auto p-5">
         <p className="cursor-pointer text-lg font-semibold">목차</p>
         <TableOfContents toc={data?.toc ?? []} />
