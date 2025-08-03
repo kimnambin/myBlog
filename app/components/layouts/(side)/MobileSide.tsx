@@ -50,7 +50,11 @@ const MobileSide = () => {
         ) : (
           <div className="grid grid-cols-[repeat(2,_1fr)] gap-1.5">
             {getcategoryList?.categorys?.slice(1).map((v: CategoryProps) => (
-              <Link href={`/blog/${encodeURIComponent(v.name)}/`} key={v.id} onClick={startLoading}>
+              <Link
+                href={`/blog/${encodeURIComponent(v.name)}/`}
+                key={v.id}
+                onMouseDown={startLoading}
+              >
                 <p
                   className="mb-1.5 flex h-[40px] items-center justify-center rounded-2xl text-center font-bold text-white transition-transform duration-500 hover:scale-105"
                   style={{ backgroundColor: BgColor[v.name] || '#0264fb' }}

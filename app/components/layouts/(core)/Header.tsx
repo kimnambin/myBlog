@@ -13,7 +13,7 @@ import { BiLogoGithub } from 'react-icons/bi';
 import { AiOutlineMail } from 'react-icons/ai';
 
 const Header = () => {
-  const { isClick, handledropDown } = useSideFn();
+  const { isClick, handleClose } = useSideFn();
   const { startLoading, stopLoading } = useLoading();
 
   const pathname = usePathname();
@@ -29,7 +29,7 @@ const Header = () => {
   return (
     <header className="fixed z-3000 flex w-full items-center justify-between border-b bg-white p-5">
       <div className="flex sm:mx-[10%] items-center mx-[5%]">
-        <Link href="/" className="text-xl font-semibold">
+        <Link href="/" className="text-xl font-semibold" onMouseDown={startLoading}>
           <span className="hover:text-hover font-bold flex items-center gap-2">
             <img src="/img/main.webP" className="w-6 h-6" />
             나니 블로그
@@ -55,7 +55,7 @@ const Header = () => {
 
       <nav className="relative mr-[5%] flex items-center gap-4 sm:mr-[10%]">
         <aside className="flex items-center gap-2.5">
-          <div className="cursor-pointer" onClick={handledropDown}>
+          <div className="cursor-pointer" onClick={handleClose}>
             {isClick ? '✖' : <TiThMenuOutline className="h-[28px] w-[28px]" />}
           </div>
           {isClick && (

@@ -4,16 +4,14 @@ import Link from 'next/link';
 import React from 'react';
 import Image from 'next/legacy/image';
 
-
 const GridCard = ({ data }: { data: PostProps }) => {
   const { isLoadingBar, startLoading } = useLoading();
 
   return (
     <>
-   
       <Link
         href={`/blog/${data.category?.slice(0, 1)}/${encodeURIComponent(data.title)}`}
-        onClick={startLoading}
+        onMouseDown={startLoading}
       >
         <div className="relative w-full pb-[61.8%] transition-transform duration-300 hover:scale-110">
           <Image

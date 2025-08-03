@@ -25,7 +25,7 @@ export const useSideFn = (category?: string) => {
     };
   }, [isClick]);
 
-  const handledropDown = () => {
+  const handleClose = () => {
     setIsClick(!isClick);
   };
 
@@ -70,7 +70,8 @@ export const useSideFn = (category?: string) => {
 
   return {
     isClick,
-    handledropDown,
+    setIsClick,
+    handleClose,
     search,
     changeSearch,
     searchLoading,

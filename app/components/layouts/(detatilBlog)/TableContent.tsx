@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
-interface TocEntry {
+export interface TocEntry {
   value: string;
   depth: number;
   id?: string;
@@ -52,7 +52,7 @@ export default function TableOfContents({ toc }: { toc: TocEntry[] }) {
       <div key={item.id} className="space-y-2">
         <Link
           href={`#${item.id}`}
-          onClick={() => setActiveId(item.id || null)}
+          onMouseDown={() => setActiveId(item.id || null)}
           className={`block transition-colors ${
             activeId === item.id
               ? 'font-bold text-blue-600'

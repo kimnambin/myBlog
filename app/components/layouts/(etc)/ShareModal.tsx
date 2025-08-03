@@ -9,14 +9,14 @@ import { useSideFn } from '@/hooks/sideFn';
 import { useShare } from '@/hooks/share';
 
 const ShareModal = () => {
-  const { isClick, handledropDown } = useSideFn();
+  const { isClick, handleClose } = useSideFn();
   const { clipboard, kakaoShare, xUrl } = useShare();
 
   return (
     <div className="flex items-center">
       <BiSolidShareAlt
         className={`shareIcons hover:text-hover mx-2 hover:scale-125 ${isClick ? 'hidden' : ''}`}
-        onClick={handledropDown}
+        onClick={handleClose}
       />
 
       {isClick ? (

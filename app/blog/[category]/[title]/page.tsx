@@ -14,7 +14,7 @@ import ShareModal from '@/app/components/layouts/(etc)/ShareModal';
 import PostingMenu from '@/app/components/layouts/(etc)/PostingMenu';
 import ScrollBar from '@/app/components/layouts/(detatilBlog)/ScrollBar';
 import ShowPostingWrapper from '@/app/components/layouts/(detatilBlog)/ShowPostingWrapper';
-import ScrollTop from '@/app/components/layouts/(side)/ScrollTop';
+import MobileTableContent from '@/app/components/layouts/(detatilBlog)/MobileTableContent';
 
 export async function generateMetadata({
   params,
@@ -85,6 +85,9 @@ const BlogPost = async ({ params }: { params: { category: string; title: string 
     rehypePlugins: [withSlugs, rehypeSanitize, withToc, withTocExport],
   });
 
+  console.log('data', data);
+  console.log('post', post);
+
   return (
     <div className="mobileContent mt-3 flex w-full gap-4.5 border-b p-3">
       <ScrollBar />
@@ -114,24 +117,16 @@ const BlogPost = async ({ params }: { params: { category: string; title: string 
 
       <div className="flex w-52"></div>
 
-      {/* TODO : 접고 펼치기로 수정하기 */}
       <nav className="TableOfContentsLink bg-muted/60 fixed top-[var(--header-height)] right-[11%] flex h-[calc(100vh-var(--header-height))] w-48 flex-col gap-2 overflow-y-auto p-5">
         <p className="cursor-pointer text-lg font-semibold">목차</p>
         <TableOfContents toc={data?.toc ?? []} />
       </nav>
 
       {/* 모바일 환경 시 */}
-      <div className="fixed right-5 bottom-15 hidden px-5 py-2 text-black max-[900px]:block">
-        <details className="backdrop-blur-sm">
-          <summary className="flex cursor-pointer items-center justify-between bg-black p-4 text-lg font-semibold text-white transition-colors duration-300 ease-in-out">
-            <span>목차</span>
-          </summary>
-          <nav className="space-y-3 bg-white p-4 text-sm transition-all duration-300 ease-in-out">
-            <TableOfContents toc={data?.toc ?? []} />
-          </nav>
-        </details>
-        {post?.id && <PostingMenu id={post.id} />}
-      </div>
+      <MobileTableContent
+        data={{ toc: (data?.toc ?? []) as { id: string; value: string; depth: number }[] }}
+        post={post ?? undefined}
+      />
     </div>
   );
 };

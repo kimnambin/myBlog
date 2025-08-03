@@ -1,4 +1,5 @@
 const BlogListSkeleton = () => {
+  // TODO : 화면 크게 수정
   return (
     <div className="animate-pulse flex items-center space-x-4 p-4">
       <div className="h-16 w-16 bg-gray-300 rounded"></div>
