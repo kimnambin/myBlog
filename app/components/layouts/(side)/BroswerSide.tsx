@@ -25,7 +25,7 @@ const BrowerSide = () => {
           onChange={changeSearch}
           value={search}
         />
-
+        {/* TODO : 검색부분 UI 개선 필요 */}
         <ul>
           {isLoadingBar ? (
             <Loading />
