@@ -2,19 +2,16 @@ import { getDetailPost, getPostsByCategory } from '../../../../lib/notion';
 import rehypeSanitize from 'rehype-sanitize';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
-import { compile } from '@mdx-js/mdx';
 import withSlugs from 'rehype-slug';
 import withToc from '@stefanprobst/rehype-extract-toc';
 import withTocExport from '@stefanprobst/rehype-extract-toc/mdx';
 import { serialize } from 'next-mdx-remote/serialize';
-import TableOfContents from '../../../components/layouts/(detatilBlog)/TableContent';
 import { BgColor } from '@/app/components/model/category';
 import { BsCalendarDate } from 'react-icons/bs';
-import ShareModal from '@/app/components/layouts/(etc)/ShareModal';
-import PostingMenu from '@/app/components/layouts/(etc)/PostingMenu';
 import ScrollBar from '@/app/components/layouts/(detatilBlog)/ScrollBar';
 import ShowPostingWrapper from '@/app/components/layouts/(detatilBlog)/ShowPostingWrapper';
-import MobileTableContent from '@/app/components/layouts/(detatilBlog)/MobileTableContent';
+import dynamic from 'next/dynamic';
+import { TocEntry } from '../../../components/layouts/(detatilBlog)/TableContent';
 
 export async function generateMetadata({
   params,
@@ -62,6 +59,15 @@ export const generateStaticParams = async () => {
   return paramsArray;
 };
 
+const TableOfContents = dynamic(
+  () => import('../../../components/layouts/(detatilBlog)/TableContent')
+);
+const MobileTableContent = dynamic(
+  () => import('@/app/components/layouts/(detatilBlog)/MobileTableContent')
+);
+const ShareModal = dynamic(() => import('@/app/components/layouts/(etc)/ShareModal'));
+const PostingMenu = dynamic(() => import('@/app/components/layouts/(etc)/PostingMenu'));
+
 export const revalidate = 60;
 
 const BlogPost = async ({ params }: { params: { category: string; title: string } }) => {
@@ -80,13 +86,6 @@ const BlogPost = async ({ params }: { params: { category: string; title: string 
   if (!markdown) {
     return notFound();
   }
-
-  const { data } = await compile(markdown, {
-    rehypePlugins: [withSlugs, rehypeSanitize, withToc, withTocExport],
-  });
-
-  console.log('data', data);
-  console.log('post', post);
 
   return (
     <div className="mobileContent mt-3 flex w-full gap-4.5 border-b p-3">
@@ -119,12 +118,14 @@ const BlogPost = async ({ params }: { params: { category: string; title: string 
 
       <nav className="TableOfContentsLink bg-muted/60 fixed top-[var(--header-height)] right-[11%] flex h-[calc(100vh-var(--header-height))] w-48 flex-col gap-2 overflow-y-auto p-5">
         <p className="cursor-pointer text-lg font-semibold">목차</p>
-        <TableOfContents toc={data?.toc ?? []} />
+        <TableOfContents toc={(mdxSource.frontmatter?.toc ?? []) as TocEntry[]} />
       </nav>
 
       {/* 모바일 환경 시 */}
       <MobileTableContent
-        data={{ toc: (data?.toc ?? []) as { id: string; value: string; depth: number }[] }}
+        data={{
+          toc: (mdxSource.frontmatter?.toc ?? []) as { id: string; value: string; depth: number }[],
+        }}
         post={post ?? undefined}
       />
     </div>

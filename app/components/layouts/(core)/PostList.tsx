@@ -36,6 +36,25 @@ export default function PostList({ category }: { category: string }) {
 
   const { basic, handleClick } = useLayout();
 
+  // TODO : 조회수 못가져옴... (id값을 한번에 받아서 그런 듯 각각으로 수정하기)
+  const ids =
+    data?.pages.flatMap((page) => page.posts.map((post: { id: string }) => post.id)) ?? [];
+  const idList = ids?.join(',');
+
+  const { data: hintsData, isLoading: searchLoading } = useQuery({
+    queryKey: ['hintsData', idList],
+    queryFn: async () => {
+      const res = await fetch(`/api/blog/getHits?ids=${idList}`);
+      if (!res.ok) {
+        throw new Error('데이터를 가져오는 중 오류 발생');
+      }
+
+      return res.json();
+    },
+  });
+
+  console.log('Hints Data:', hintsData);
+
   return (
     <>
       <div className="mt-2.5 mb-6.5 flex w-full justify-between text-xl font-bold ">

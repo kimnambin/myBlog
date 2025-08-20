@@ -7,7 +7,7 @@ import { BsCalendarDate } from 'react-icons/bs';
 import { BgColor } from '../../model/category';
 
 const FlexCard = ({ data }: { data: PostProps }) => {
-  const { isLoadingBar, startLoading } = useLoading();
+  const { startLoading } = useLoading();
 
   return (
     <>
@@ -19,7 +19,7 @@ const FlexCard = ({ data }: { data: PostProps }) => {
         <div className="m-3 flex transform flex-row items-start justify-between gap-4 border-b">
           <main className="flex h-full w-2/3 flex-col justify-between gap-1">
             <h1 className="overflow-hidden text-xs font-bold text-ellipsis whitespace-nowrap sm:text-lg">
-              {data?.title.slice(0, 16)}
+              {data?.title.slice(0, 16) + '...'}
             </h1>
             <span className="flex flex-row flex-wrap gap-1">
               {data?.category?.map((v) => (

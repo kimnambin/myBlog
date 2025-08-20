@@ -17,7 +17,7 @@ const Title = ({ category }: { category: string }) => {
   }
 
   return (
-    <span className="text-sm sm:ml-0 sm:text-lg">
+    <div className="text-sm sm:ml-0 sm:text-lg">
       {categoryData ? (
         <>
           {categoryData.name}
@@ -29,7 +29,7 @@ const Title = ({ category }: { category: string }) => {
           <span className="ml-2 text-[#ef402f]">{categorys[0].count}개</span>
         </>
       )}
-    </span>
+    </div>
   );
 };
 
