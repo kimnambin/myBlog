@@ -22,17 +22,17 @@ const ShareModal = () => {
       {isClick ? (
         <div
           id="shareModal"
-          className="shareModalContainer ml-2 flex flex-row items-start border bg-white"
+          className="shareModalContainer  flex flex-row items-start border bg-white"
         >
           <button className="shareContainer hover:text-hover w-[140px]" onClick={() => clipboard()}>
             <FiPaperclip className="shareIcons" />
-            링크 복사하기
+            링크 복사
           </button>
           <button
             className="shareContainer hover:text-hover w-[140px] "
             onClick={() => kakaoShare()}
           >
-            <RiKakaoTalkFill className="shareIcons" /> 카카오톡 공유
+            <RiKakaoTalkFill className="shareIcons" /> 카톡 공유
           </button>
           <a
             className="shareContainer hover:text-hover w-[140px]  no-underline"
@@ -41,7 +41,7 @@ const ShareModal = () => {
             rel="noopener noreferrer"
           >
             <AiOutlineMail className="shareIcons" />
-            이메일 공유
+            메일 공유
           </a>
         </div>
       ) : (
